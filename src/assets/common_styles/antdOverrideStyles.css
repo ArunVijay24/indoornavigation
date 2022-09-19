@@ -1,0 +1,13 @@
+section.ant-layout.ant-layout-has-sider.layout {
+	height: 100vh;
+}
+.site-layout .site-layout-background {
+	background: #001529 !important;
+}
+span.anticon.anticon-menu-unfold.trigger,
+span.anticon.anticon-menu-fold.trigger {
+	color: white !important;
+}
+.ant-layout-header {
+	padding: 0 14px !important;
+}
