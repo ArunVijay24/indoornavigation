@@ -1,57 +1,28 @@
-import { MenuFoldOutlined, MenuUnfoldOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
-import { Layout, Menu, version } from 'antd';
-import React, { useState } from 'react';
-import './styles.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { brands } from '@fortawesome/fontawesome-svg-core/import.macro';
-const { Header, Sider, Content, Footer } = Layout;
+import React from 'react';
+import image from '../../assets/common_styles/images/Mall.jpg';
+
+import { Media } from 'reactstrap';
 
 const Dashboard = () => {
-	const [ collapsed, setCollapsed ] = useState(false);
-	const items = [
-		{
-			key: '1',
-			icon: <UserOutlined />,
-			label: 'Dashboard'
-		},
-		{
-			key: '2',
-			icon: <VideoCameraOutlined />,
-			label: 'FindMyWay'
-		}
-	];
 	return (
-		<Layout className="layout">
-			<Sider trigger={null} collapsible collapsed={collapsed}>
-				<div className="logo" />
-				<Header className="site-layout-background">
-					{React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-						className: 'trigger',
-						onClick: () => setCollapsed(!collapsed)
-					})}
-				</Header>
-				<Menu theme="dark" mode="inline" defaultSelectedKeys={[ '1' ]} items={items} />
-			</Sider>
-			<Layout className="site-layout">
-				<Content
+		<div className="content">
+			<div className="site-layout-content">
+				<h1>Welcome to Dashboard</h1>
+			</div>
+			<Media className="text-center">
+				<img
+					src={image}
 					style={{
-						padding: '0 50px'
+						width: '100px',
+						height: '100px',
+						borderRadius: '50%',
+						border: `3px solid #f4f5fa`
 					}}
-				>
-					<div className="site-layout-content">Welcome to FindMyWay</div>
-					<span className="f_600">
-						<FontAwesomeIcon icon={'twitter'} />
-					</span>
-				</Content>
-				<Footer
-					style={{
-						textAlign: 'center'
-					}}
-				>
-					FindMyWay ©2022 Created by Technerds {version}
-				</Footer>
-			</Layout>
-		</Layout>
+					alt="dashboard"
+					className="shadow  p-3"
+				/>
+			</Media>
+		</div>
 	);
 };
 
