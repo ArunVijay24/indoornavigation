@@ -34,3 +34,6 @@ span.anticon.anticon-menu-fold.trigger {
 .footer {
 	text-align: center;
 }
+.ant-table-wrapper.highlight {
+	margin: 10px auto;
+}

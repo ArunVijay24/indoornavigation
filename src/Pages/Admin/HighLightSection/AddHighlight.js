@@ -1,6 +1,8 @@
 import { Button, Form, Input, Space, Modal } from 'antd';
 import React, { useState } from 'react';
 
+const { TextArea } = Input;
+
 const AddHighLight = () => {
 	const [ open, setOpen ] = useState(false),
 		[ highlights, setHighlights ] = useState({});
@@ -21,7 +23,6 @@ const AddHighLight = () => {
 				open={open}
 				onOk={() => setOpen(false)}
 				onCancel={() => setOpen(false)}
-				width={1000}
 				footer={null}
 			>
 				<Space>
@@ -52,7 +53,7 @@ const AddHighLight = () => {
 							name="highlightmessage"
 							rules={[ { required: true, message: 'Please enter highlight message' } ]}
 						>
-							<Input placeholder="Enter Highlight Message" />
+							<TextArea rows={4} placeholder="Enter Highlight Message" />
 						</Form.Item>
 						<Form.Item>
 							<Button type="primary" htmlType="submit">
