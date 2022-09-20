@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 //antd
-import { MenuFoldOutlined, MenuUnfoldOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
+import { MenuFoldOutlined, MenuUnfoldOutlined, UserOutlined, DoubleRightOutlined } from '@ant-design/icons';
 import { Layout, Menu, version } from 'antd';
 
 //styles
@@ -12,7 +12,7 @@ import './styles.css';
 
 //pages
 import Dashboard from './Pages/Dashboard/Dashboard';
-import FindMyWay from './Pages/FindMyWay';
+import FindMyWay from './Pages/FindMyWay/FindMyWay';
 
 const { Header, Sider, Content, Footer } = Layout;
 
@@ -28,7 +28,7 @@ const App = () => {
 		},
 		{
 			key: '2',
-			icon: <VideoCameraOutlined />,
+			icon: <DoubleRightOutlined />,
 			label: 'FindMyWay',
 			onClick: () => navigate('/findmyway')
 		}

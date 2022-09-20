@@ -1,10 +1,10 @@
 import React from 'react';
-import image from '../assets/common_styles/images/Mall.jpg';
+import image from '../../assets/images/Mall.jpg';
 
 import { Media } from 'reactstrap';
-import { Form, Select } from 'antd';
+import { Button, Form, Select } from 'antd';
 
-const { Option } = Select;
+// const { Option } = Select;
 
 const FindMyWay = () => {
 	const onChange = (value) => {
@@ -55,6 +55,7 @@ const FindMyWay = () => {
 				>
 					{option}
 				</Select>
+				<Button>Find Path</Button>
 			</Form.Item>
 		</div>
 	);

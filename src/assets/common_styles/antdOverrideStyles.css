@@ -25,7 +25,7 @@ span.anticon.anticon-menu-fold.trigger {
 	transition: color 0.3s;
 }
 .contentimg {
-	background-image: url(./images/Mall.jpg);
+	background-image: url(../images/Mall.jpg);
 	background-repeat: no-repeat;
 	background-size: cover;
 	text-overflow: ellipsis;
