@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 //antd
-import { MenuFoldOutlined, MenuUnfoldOutlined, UserOutlined, DoubleRightOutlined } from '@ant-design/icons';
-import { Layout, Menu, version } from 'antd';
+import { UserOutlined, DoubleRightOutlined } from '@ant-design/icons';
+import { Layout } from 'antd';
 
 //styles
 import 'antd/dist/antd.min.css';
@@ -13,11 +13,13 @@ import './styles.css';
 //pages
 import Dashboard from './Pages/Dashboard/Dashboard';
 import FindMyWay from './Pages/FindMyWay/FindMyWay';
+import Highlight from './Pages/Admin/HighLightSection/Highlightsection';
+import Layoutsider from './Components/Layoutsider/Layoutsider';
 
-const { Header, Sider, Content, Footer } = Layout;
+const { Content } = Layout;
 
 const App = () => {
-	const [ collapsed, setCollapsed ] = useState(false);
+	const role = 'admin';
 
 	const items = [
 		{
@@ -33,20 +35,30 @@ const App = () => {
 			onClick: () => navigate('/findmyway')
 		}
 	];
+	const items2 = [
+		{
+			key: '1',
+			icon: <UserOutlined />,
+			label: 'HighLightSection',
+			onClick: () => navigate('/highlightsection')
+		}
+	];
 
 	const navigate = useNavigate();
-	return (
+	return role === 'admin' ? (
 		<Layout className="layout">
-			<Sider trigger={null} collapsible collapsed={collapsed}>
-				<div className="logo" />
-				<Header className="site-layout-background">
-					{React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-						className: 'trigger',
-						onClick: () => setCollapsed(!collapsed)
-					})}
-				</Header>
-				<Menu theme="dark" mode="inline" defaultSelectedKeys={[ '1' ]} items={items} />
-			</Sider>
+			<Layoutsider items={items2} />
+			<Layout className="site-layout contentimg">
+				<Content className="">
+					<Routes>
+						<Route path="/highlightsection" element={<Highlight />} />
+					</Routes>
+				</Content>
+			</Layout>
+		</Layout>
+	) : (
+		<Layout className="layout">
+			<Layoutsider items={items} />
 			<Layout className="site-layout contentimg">
 				<Content className="">
 					<Routes>
@@ -54,7 +66,6 @@ const App = () => {
 						<Route path="/findMyWay" element={<FindMyWay />} />
 					</Routes>
 				</Content>
-				<Footer className="footer">FindMyWay ©2022 Created by Technerds {version}</Footer>
 			</Layout>
 		</Layout>
 	);
