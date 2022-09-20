@@ -36,26 +36,26 @@ const AddHighLight = () => {
 					>
 						<Form.Item
 							label="Start Date"
-							name="startdate"
+							name="startDate"
 							rules={[ { required: true, message: 'Please enter start date' } ]}
 						>
 							<Input type="date" />
 						</Form.Item>
 						<Form.Item
 							label="End Date"
-							name="enddate"
+							name="endDate"
 							rules={[ { required: true, message: 'Please enter end date' } ]}
 						>
 							<Input type="date" />
 						</Form.Item>
 						<Form.Item
 							label="Highlight Message"
-							name="highlightmessage"
+							name="highlight"
 							rules={[ { required: true, message: 'Please enter highlight message' } ]}
 						>
-							<TextArea rows={4} placeholder="Enter Highlight Message" />
+							<TextArea rows={4} placeholder="Enter Message" />
 						</Form.Item>
-						<Form.Item>
+						<Form.Item className="highlightbtns">
 							<Space>
 								<Button type="secondary" onClick={() => setOpen(false)}>
 									Cancel
