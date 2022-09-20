@@ -2,9 +2,7 @@ import React from 'react';
 import image from '../../assets/images/Mall.jpg';
 
 import { Media } from 'reactstrap';
-import { Button, Form, Select } from 'antd';
-
-// const { Option } = Select;
+import { Button, Select, Space } from 'antd';
 
 const FindMyWay = () => {
 	const onChange = (value) => {
@@ -34,7 +32,7 @@ const FindMyWay = () => {
 					className=""
 				/>
 			</Media>
-			<Form.Item>
+			<Space>
 				<Select
 					showSearch
 					placeholder="Select a Starting Place"
@@ -56,7 +54,7 @@ const FindMyWay = () => {
 					{option}
 				</Select>
 				<Button>Find Path</Button>
-			</Form.Item>
+			</Space>
 		</div>
 	);
 };
