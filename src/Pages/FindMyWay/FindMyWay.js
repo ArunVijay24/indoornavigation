@@ -1,7 +1,4 @@
 import React from 'react';
-import image from '../../assets/images/Mall.jpg';
-
-import { Media } from 'reactstrap';
 import { Button, Select, Space } from 'antd';
 
 const FindMyWay = () => {
@@ -19,19 +16,6 @@ const FindMyWay = () => {
 			<div className="site-layout-content">
 				<h1>Welcome to FindMyWay</h1>
 			</div>
-			<Media left className="mr-3 text-center">
-				<img
-					src={image}
-					style={{
-						width: '100px',
-						height: '100px',
-						borderRadius: '50%',
-						border: `3px solid #f4f5fa`
-					}}
-					alt="dashboard"
-					className=""
-				/>
-			</Media>
 			<Space>
 				<Select
 					showSearch

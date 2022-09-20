@@ -1,5 +1,5 @@
 import React from 'react';
-import image from '../../assets/common_styles/images/Mall.jpg';
+import image from '../../assets/images/Mall.jpg';
 
 import { Media } from 'reactstrap';
 
