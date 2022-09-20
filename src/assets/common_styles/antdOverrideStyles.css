@@ -36,4 +36,9 @@ span.anticon.anticon-menu-fold.trigger {
 }
 .ant-table-wrapper.highlight {
 	margin: 10px auto;
+	width: 68vw;
+}
+.ant-table-thead > tr > th {
+	color: rgb(15 30 141 / 85%);
+	background: #72ebdb;
 }

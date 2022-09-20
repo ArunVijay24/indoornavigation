@@ -56,9 +56,14 @@ const AddHighLight = () => {
 							<TextArea rows={4} placeholder="Enter Highlight Message" />
 						</Form.Item>
 						<Form.Item>
-							<Button type="primary" htmlType="submit">
-								Submit
-							</Button>
+							<Space>
+								<Button type="secondary" onClick={() => setOpen(false)}>
+									Cancel
+								</Button>
+								<Button type="primary" htmlType="submit">
+									Submit
+								</Button>
+							</Space>
 						</Form.Item>
 					</Form>
 				</Space>
