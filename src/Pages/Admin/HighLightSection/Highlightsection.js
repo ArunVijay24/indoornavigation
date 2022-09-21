@@ -3,6 +3,8 @@ import HighLightModal from './AddHighlight';
 import HighlightTable from './HighlightTable';
 import { Button } from 'antd';
 
+import _isEmpty from 'lodash/isEmpty';
+
 const Highlightsection = () => {
 	const [ addModal, setAddModal ] = useState(false),
 		[ updateModal, setUpdateModal ] = useState(false),
@@ -14,12 +16,14 @@ const Highlightsection = () => {
 				<Button onClick={() => setAddModal(true)}>Add Highlights</Button>
 				<HighlightTable modal={(val) => setUpdateModal(val)} initVal={(val) => setModalValue(val)} />
 				<HighLightModal type="Addnew" openModal={addModal} closeModal={() => setAddModal(false)} />
-				<HighLightModal
-					type="Update"
-					openModal={updateModal}
-					closeModal={() => setUpdateModal(false)}
-					initValue={modalValue}
-				/>
+				{!_isEmpty(modalValue) && (
+					<HighLightModal
+						type="Update"
+						openModal={updateModal}
+						closeModal={() => setUpdateModal(false)}
+						initValue={modalValue}
+					/>
+				)}
 			</div>
 		</div>
 	);

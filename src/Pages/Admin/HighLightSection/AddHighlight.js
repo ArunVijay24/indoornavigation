@@ -2,6 +2,7 @@ import { Button, Form, Input, Space, Modal } from 'antd';
 import React, { useState, useEffect } from 'react';
 
 import Axios from 'axios';
+import _isEmpty from 'lodash/isEmpty';
 const { TextArea } = Input;
 
 const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
@@ -10,7 +11,7 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 		endDate: '',
 		highlights: ''
 	});
-	console.log('initialValues', initialValues);
+	//console.log('initialValues', initialValues);
 	const url = 'http://192.168.68.123:3000/FindMyWay/api/test/add-highlight';
 
 	const onFinish = (values) => {
@@ -39,12 +40,12 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 	useEffect(
 		() => {
 			if (initValue) {
-				setInitialValues((prevValues) => ({
-					...prevValues,
+				console.log('initvalue', initValue);
+				setInitialValues({
 					startDate: initValue.START_DATE,
 					endDate: initValue.END_DATE,
 					highlights: initValue.HIGHLIGHTS
-				}));
+				});
 			}
 		},
 		[ initValue ]
@@ -54,7 +55,7 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 			<Modal
 				title={type === 'Addnew' ? 'New Highlight' : 'Edit Highlight'}
 				centered
-				open={openModal}
+				open={!_isEmpty(initValue) && openModal}
 				onOk={closeModal}
 				onCancel={closeModal}
 				footer={null}
@@ -66,21 +67,21 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 							name="startDate"
 							rules={[ { required: true, message: 'Please enter start date' } ]}
 						>
-							<Input type="date" defaultValue={initialValues.startDate} />
+							<Input type="date" value={initialValues.startDate} />
 						</Form.Item>
 						<Form.Item
 							label="End Date"
 							name="endDate"
 							rules={[ { required: true, message: 'Please enter end date' } ]}
 						>
-							<Input type="date" defaultValue={initialValues.endDate} />
+							<Input type="date" value={initialValues.endDate} />
 						</Form.Item>
 						<Form.Item
 							label="Highlight Message"
 							name="highlight"
 							rules={[ { required: true, message: 'Please enter highlight message' } ]}
 						>
-							<TextArea rows={4} placeholder="Enter Message" defaultValue={initialValues.highlights} />
+							<TextArea rows={4} placeholder="Enter Message" value={initialValues.highlights} />
 						</Form.Item>
 						<Form.Item className="highlightbtns">
 							<Space>
