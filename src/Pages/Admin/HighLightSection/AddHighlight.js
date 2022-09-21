@@ -1,25 +1,35 @@
-import { Button, Form, Input, Space, Modal } from 'antd';
+import { Button, Form, Input, Space, Modal, Select } from 'antd';
 import React, { useState, useEffect } from 'react';
 
 import Axios from 'axios';
-import _isEmpty from 'lodash/isEmpty';
+// import _isEmpty from 'lodash/isEmpty';
 const { TextArea } = Input;
+const { Option } = Select;
 
 const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 	const [ initialValues, setInitialValues ] = useState({
-		startDate: '',
-		endDate: '',
-		highlights: ''
-	});
-	//console.log('initialValues', initialValues);
-	const url = 'http://192.168.68.123:3000/FindMyWay/api/test/add-highlight';
+			mallId: '',
+			startDate: '',
+			endDate: '',
+			highlights: ''
+		}),
+		[ malls, setMalls ] = useState([]),
+		[ selectedMallId, setSelectedMallId ] = useState();
+
+	const url = 'http://192.168.0.164:3000/FindMyWay/api/test/add-highlight';
+
+	const mallsurl = 'http://192.168.0.164:3000/FindMyWay/api/test/malls';
 
 	const onFinish = (values) => {
+		console.log('val', values);
 		makeAPICall(values);
 	};
 
 	const onFinishFailed = (errorInfo) => {
 		console.log('Failed:', errorInfo);
+	};
+	const onChange = (value) => {
+		setSelectedMallId(value);
 	};
 
 	const makeAPICall = async (values) => {
@@ -42,20 +52,36 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 			if (initValue) {
 				console.log('initvalue', initValue);
 				setInitialValues({
+					mallId: selectedMallId,
 					startDate: initValue.START_DATE,
 					endDate: initValue.END_DATE,
 					highlights: initValue.HIGHLIGHTS
 				});
 			}
 		},
-		[ initValue ]
+		[ initValue, selectedMallId ]
 	);
+
+	useEffect(() => {
+		Axios({
+			method: 'get',
+			url: mallsurl
+		})
+			.then(({ data, status }) => {
+				console.log('data: ', data, status);
+				setMalls(data.data);
+			})
+			.catch((error) => {
+				console.log('error: ', error);
+			});
+	}, []);
+
 	return (
 		<React.Fragment>
 			<Modal
 				title={type === 'Addnew' ? 'New Highlight' : 'Edit Highlight'}
 				centered
-				open={!_isEmpty(initValue) && openModal}
+				open={openModal}
 				onOk={closeModal}
 				onCancel={closeModal}
 				footer={null}
@@ -76,6 +102,28 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 						>
 							<Input type="date" value={initialValues.endDate} />
 						</Form.Item>
+						{type === 'Addnew' && (
+							<Form.Item
+								label="Mall"
+								name="mallId"
+								rules={[ { required: true, message: 'Please select the mall' } ]}
+							>
+								<Select
+									showSearch
+									placeholder="Select a Mall"
+									optionFilterProp="children"
+									onChange={onChange}
+									filterOption={(input, option) =>
+										option.children.toLowerCase().includes(input.toLowerCase())}
+								>
+									{malls.map((option) => (
+										<Option key={option.ID} value={option.ID}>
+											{option.MALL_NAMES}
+										</Option>
+									))}
+								</Select>
+							</Form.Item>
+						)}
 						<Form.Item
 							label="Highlight Message"
 							name="highlight"

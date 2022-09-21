@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 const HighlightTable = ({ modal, initVal }) => {
 	const [ dataSource, setDataSource ] = useState([]);
 
-	const url = 'http://192.168.68.123:3000/FindMyWay/api/test/highlights';
+	const url = 'http://192.168.0.164:3000/FindMyWay/api/test/highlights';
 
 	const renderTableCell = (cell, row) => {
 		const { START_DATE, END_DATE, HIGHLIGHTS } = row;
@@ -79,7 +79,7 @@ const HighlightTable = ({ modal, initVal }) => {
 		makeAPICall();
 	}, []);
 
-	return <Table dataSource={dataSource} columns={columns} className="highlight" />;
+	return <Table dataSource={dataSource} columns={columns} className="highlight" rowKey="Id" />;
 };
 
 export default HighlightTable;
