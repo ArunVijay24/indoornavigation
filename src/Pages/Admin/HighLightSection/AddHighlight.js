@@ -5,13 +5,12 @@ import Axios from 'axios';
 const { TextArea } = Input;
 
 const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
-	console.log('props', type, initValue);
-
 	const [ initialValues, setInitialValues ] = useState({
 		startDate: '',
 		endDate: '',
 		highlights: ''
 	});
+	console.log('initialValues', initialValues);
 	const url = 'http://192.168.68.123:3000/FindMyWay/api/test/add-highlight';
 
 	const onFinish = (values) => {
@@ -67,21 +66,21 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 							name="startDate"
 							rules={[ { required: true, message: 'Please enter start date' } ]}
 						>
-							<Input type="date" value={initialValues.startDate} />
+							<Input type="date" defaultValue={initialValues.startDate} />
 						</Form.Item>
 						<Form.Item
 							label="End Date"
 							name="endDate"
 							rules={[ { required: true, message: 'Please enter end date' } ]}
 						>
-							<Input type="date" value={initialValues.endDate} />
+							<Input type="date" defaultValue={initialValues.endDate} />
 						</Form.Item>
 						<Form.Item
 							label="Highlight Message"
 							name="highlight"
 							rules={[ { required: true, message: 'Please enter highlight message' } ]}
 						>
-							<TextArea rows={4} placeholder="Enter Message" value={initialValues.highlights} />
+							<TextArea rows={4} placeholder="Enter Message" defaultValue={initialValues.highlights} />
 						</Form.Item>
 						<Form.Item className="highlightbtns">
 							<Space>

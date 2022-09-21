@@ -23,8 +23,8 @@ const HighlightTable = ({ modal, initVal }) => {
 					<Button
 						className="px-4 edit"
 						onClick={() => {
-							modal(true);
 							initVal(row);
+							modal(true);
 						}}
 					>
 						Edit
