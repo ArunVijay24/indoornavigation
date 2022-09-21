@@ -1,7 +1,10 @@
 import { Button, Table, Space } from 'antd';
 
+import Axios from 'axios';
+import { useEffect, useState } from 'react';
+
 const HighlightTable = () => {
-	const dataSource = [];
+	const [ dataSource, setDataSource ] = useState([]);
 	const columns = [
 		{
 			title: 'Start Date',
@@ -29,6 +32,22 @@ const HighlightTable = () => {
 			)
 		}
 	];
+
+	useEffect(() => {
+		Axios({
+			method: 'get',
+			url: 'https://e7c0-183-82-30-144.in.ngrok.io/FindMyWay/api/test/highlights'
+		})
+			.then(({ data, status }) => {
+				console.log('data: ', data, status);
+				if (status === 200) {
+					setDataSource(data);
+				}
+			})
+			.catch((error) => {
+				console.log('error: ', error);
+			});
+	}, []);
 	return <Table dataSource={dataSource} columns={columns} className="highlight" />;
 };
 
