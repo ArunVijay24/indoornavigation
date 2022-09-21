@@ -1,75 +1,103 @@
 import { Button, Form, Input, Space, Modal } from 'antd';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
+import Axios from 'axios';
 const { TextArea } = Input;
 
-const AddHighLight = () => {
-	const [ open, setOpen ] = useState(false),
-		[ highlights, setHighlights ] = useState({});
+const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
+	console.log('props', type, initValue);
+
+	const [ initialValues, setInitialValues ] = useState({
+		startDate: '',
+		endDate: '',
+		highlights: ''
+	});
+	const url = 'http://192.168.68.123:3000/FindMyWay/api/test/add-highlight';
+
 	const onFinish = (values) => {
-		setHighlights(values);
+		makeAPICall(values);
 	};
+
 	const onFinishFailed = (errorInfo) => {
 		console.log('Failed:', errorInfo);
 	};
-	console.log(highlights);
-	return (
-		<div>
-			<Button onClick={() => setOpen(true)}>Add Highlights</Button>
 
+	const makeAPICall = async (values) => {
+		Axios({
+			method: 'post',
+			url: url,
+			data: values
+		})
+			.then(({ data, status }) => {
+				console.log('data: ', data, status);
+				closeModal();
+			})
+			.catch((error) => {
+				console.log('error: ', error);
+			});
+	};
+
+	useEffect(
+		() => {
+			if (initValue) {
+				setInitialValues((prevValues) => ({
+					...prevValues,
+					startDate: initValue.START_DATE,
+					endDate: initValue.END_DATE,
+					highlights: initValue.HIGHLIGHTS
+				}));
+			}
+		},
+		[ initValue ]
+	);
+	return (
+		<React.Fragment>
 			<Modal
-				title="New Highlight Message"
+				title={type === 'Addnew' ? 'New Highlight' : 'Edit Highlight'}
 				centered
-				open={open}
-				onOk={() => setOpen(false)}
-				onCancel={() => setOpen(false)}
+				open={openModal}
+				onOk={closeModal}
+				onCancel={closeModal}
 				footer={null}
 			>
 				<Space>
-					<Form
-						initialValues={{
-							remember: true
-						}}
-						onFinish={onFinish}
-						onFinishFailed={onFinishFailed}
-						autoComplete="off"
-					>
+					<Form onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off">
 						<Form.Item
 							label="Start Date"
 							name="startDate"
 							rules={[ { required: true, message: 'Please enter start date' } ]}
 						>
-							<Input type="date" />
+							<Input type="date" value={initialValues.startDate} />
 						</Form.Item>
 						<Form.Item
 							label="End Date"
 							name="endDate"
 							rules={[ { required: true, message: 'Please enter end date' } ]}
 						>
-							<Input type="date" />
+							<Input type="date" value={initialValues.endDate} />
 						</Form.Item>
 						<Form.Item
 							label="Highlight Message"
 							name="highlight"
 							rules={[ { required: true, message: 'Please enter highlight message' } ]}
 						>
-							<TextArea rows={4} placeholder="Enter Message" />
+							<TextArea rows={4} placeholder="Enter Message" value={initialValues.highlights} />
 						</Form.Item>
 						<Form.Item className="highlightbtns">
 							<Space>
-								<Button type="secondary" onClick={() => setOpen(false)}>
+								<Button type="secondary" onClick={closeModal}>
 									Cancel
 								</Button>
 								<Button type="primary" htmlType="submit">
-									Submit
+									Save
 								</Button>
 							</Space>
 						</Form.Item>
 					</Form>
 				</Space>
 			</Modal>
-		</div>
+		</React.Fragment>
 	);
 };
 
-export default AddHighLight;
+export default HighLightModal;

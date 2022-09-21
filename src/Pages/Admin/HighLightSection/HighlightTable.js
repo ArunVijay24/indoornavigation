@@ -3,51 +3,82 @@ import { Button, Table, Space } from 'antd';
 import Axios from 'axios';
 import { useEffect, useState } from 'react';
 
-const HighlightTable = () => {
+const HighlightTable = ({ modal, initVal }) => {
 	const [ dataSource, setDataSource ] = useState([]);
+
+	const url = 'http://192.168.68.123:3000/FindMyWay/api/test/highlights';
+
+	const renderTableCell = (cell, row) => {
+		const { START_DATE, END_DATE, HIGHLIGHTS } = row;
+
+		switch (cell) {
+			case START_DATE:
+				return <div className="text-capitalize pl-3">{START_DATE}</div>;
+			case END_DATE:
+				return <div className="text-capitalize pl-3">{END_DATE}</div>;
+			case HIGHLIGHTS:
+				return <div className="pl-3">{HIGHLIGHTS ? HIGHLIGHTS : '--'}</div>;
+			default:
+				return (
+					<Button
+						className="px-4 edit"
+						onClick={() => {
+							modal(true);
+							initVal(row);
+						}}
+					>
+						Edit
+					</Button>
+				);
+		}
+	};
+
 	const columns = [
 		{
 			title: 'Start Date',
-			dataIndex: 'startdate',
-			key: 'startdate'
+			dataIndex: 'START_DATE',
+			key: 'START_DATE',
+			render: renderTableCell
 		},
 		{
 			title: 'End Date',
-			dataIndex: 'enddate',
-			key: 'enddate'
+			dataIndex: 'END_DATE',
+			key: 'END_DATE',
+			render: renderTableCell
 		},
 		{
 			title: 'Highlight Message',
-			dataIndex: 'highlight',
-			key: 'highlight'
+			dataIndex: 'HIGHLIGHTS',
+			key: 'HIGHLIGHTS',
+			render: renderTableCell
 		},
 		{
 			title: 'Actions',
 			dataIndex: 'actions',
 			key: 'actions',
-			render: (_, record) => (
-				<Space size="middle">
-					<Button>Edit</Button>
-				</Space>
-			)
+			render: renderTableCell
 		}
 	];
 
-	useEffect(() => {
+	const makeAPICall = async () => {
 		Axios({
 			method: 'get',
-			url: 'https://e7c0-183-82-30-144.in.ngrok.io/FindMyWay/api/test/highlights'
+			url: url,
+			headers: { 'Access-Control-Allow-Origin': '*' }
 		})
 			.then(({ data, status }) => {
-				console.log('data: ', data, status);
 				if (status === 200) {
-					setDataSource(data);
+					setDataSource(data.data);
 				}
 			})
 			.catch((error) => {
 				console.log('error: ', error);
 			});
+	};
+	useEffect(() => {
+		makeAPICall();
 	}, []);
+
 	return <Table dataSource={dataSource} columns={columns} className="highlight" />;
 };
 

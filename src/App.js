@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 //antd
-import { UserOutlined, DoubleRightOutlined } from '@ant-design/icons';
+import { UserOutlined, DoubleRightOutlined, UserAddOutlined } from '@ant-design/icons';
 import { Layout } from 'antd';
 
 //styles
@@ -38,7 +38,7 @@ const App = () => {
 	const items2 = [
 		{
 			key: '1',
-			icon: <UserOutlined />,
+			icon: <UserAddOutlined />,
 			label: 'HighLightSection',
 			onClick: () => navigate('/highlightsection')
 		}
