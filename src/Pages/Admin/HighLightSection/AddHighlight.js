@@ -21,7 +21,6 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 	const mallsurl = 'http://192.168.0.164:3000/FindMyWay/api/test/malls';
 
 	const onFinish = (values) => {
-		console.log('val', values);
 		makeAPICall(values);
 	};
 
@@ -50,7 +49,6 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 	useEffect(
 		() => {
 			if (initValue) {
-				console.log('initvalue', initValue);
 				setInitialValues({
 					mallId: selectedMallId,
 					startDate: initValue.START_DATE,
@@ -68,7 +66,6 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 			url: mallsurl
 		})
 			.then(({ data, status }) => {
-				console.log('data: ', data, status);
 				setMalls(data.data);
 			})
 			.catch((error) => {

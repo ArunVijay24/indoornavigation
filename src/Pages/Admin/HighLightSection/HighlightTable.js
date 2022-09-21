@@ -3,8 +3,8 @@ import { Button, Table } from 'antd';
 import Axios from 'axios';
 import { useEffect, useState } from 'react';
 
-const HighlightTable = ({ modal, initVal }) => {
-	const [ dataSource, setDataSource ] = useState([]);
+const HighlightTable = ({ modal, initVal, mallData }) => {
+	const [ dataSource, setDataSource ] = useState(mallData);
 
 	const url = 'http://192.168.0.164:3000/FindMyWay/api/test/highlights';
 
