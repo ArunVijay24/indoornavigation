@@ -1,0 +1,3 @@
+export const ALLHIGHLIGHTS = 'ALLHIGHLIGHTS';
+export const HIGHLIGHTSBYID = 'HIGHLIGHTSBYID';
+export const ALLMALLS = 'ALLMALLS';

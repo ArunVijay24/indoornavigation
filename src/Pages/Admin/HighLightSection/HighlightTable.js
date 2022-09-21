@@ -4,7 +4,7 @@ import Axios from 'axios';
 import { useEffect, useState } from 'react';
 
 const HighlightTable = ({ modal, initVal, mallData }) => {
-	const [ dataSource, setDataSource ] = useState(mallData);
+	const [ dataSource, setDataSource ] = useState([]);
 
 	const url = 'http://192.168.0.164:3000/FindMyWay/api/test/highlights';
 
@@ -78,6 +78,12 @@ const HighlightTable = ({ modal, initVal, mallData }) => {
 	useEffect(() => {
 		makeAPICall();
 	}, []);
+	useEffect(
+		() => {
+			setDataSource(mallData);
+		},
+		[ mallData ]
+	);
 
 	return <Table dataSource={dataSource} columns={columns} className="highlight" rowKey="Id" />;
 };

@@ -5,6 +5,9 @@ import { Button, Select, Space } from 'antd';
 import Axios from 'axios';
 import _isEmpty from 'lodash/isEmpty';
 
+import { useSelector, useDispatch } from 'react-redux';
+import { getAllMalls } from '../../../Services/HighlighManagement/action';
+
 const { Option } = Select;
 
 const Highlightsection = () => {
@@ -14,6 +17,11 @@ const Highlightsection = () => {
 		[ mallData, setMallData ] = useState([]),
 		[ malls, setMalls ] = useState([]);
 
+	const Highlights = useSelector((state) => state.allHighlights);
+	const AllMalls = useSelector((state) => state.allMalls);
+
+	console.log('hl', Highlights, AllMalls);
+	const dispatch = useDispatch();
 	useEffect(() => {
 		Axios({
 			method: 'get',
@@ -21,6 +29,7 @@ const Highlightsection = () => {
 		})
 			.then(({ data, status }) => {
 				setMalls(data.data);
+				dispatch(getAllMalls(data.data));
 			})
 			.catch((error) => {
 				console.log('error: ', error);
@@ -37,6 +46,7 @@ const Highlightsection = () => {
 		})
 			.then(({ data, status }) => {
 				setMallData(data.data);
+				dispatch(getAllMalls(data.data));
 			})
 			.catch((error) => {
 				console.log('error: ', error);
