@@ -4,12 +4,21 @@ import Axios from 'axios';
 import { useEffect, useState } from 'react';
 
 const HighlightTable = ({ modal, initVal, mallData }) => {
-	const [ dataSource, setDataSource ] = useState([]);
+	const [ dataSource, setDataSource ] = useState([
+		{
+			ID: 1,
+			START_DATE: '2008-11-11T00:00:00.000Z',
+			END_DATE: '2008-11-11T00:00:00.000Z',
+			HIGHLIGHTS: 'TESTING'
+		}
+	]);
 
 	const url = 'http://192.168.0.164:3000/FindMyWay/api/test/highlights';
 
 	const renderTableCell = (cell, row) => {
 		const { START_DATE, END_DATE, HIGHLIGHTS } = row;
+
+		console.log('row', row);
 
 		switch (cell) {
 			case START_DATE:
@@ -78,14 +87,8 @@ const HighlightTable = ({ modal, initVal, mallData }) => {
 	useEffect(() => {
 		makeAPICall();
 	}, []);
-	useEffect(
-		() => {
-			setDataSource(mallData);
-		},
-		[ mallData ]
-	);
 
-	return <Table dataSource={dataSource} columns={columns} className="highlight" rowKey="Id" />;
+	return <Table dataSource={dataSource} columns={columns} className="highlight" rowKey="ID" />;
 };
 
 export default HighlightTable;

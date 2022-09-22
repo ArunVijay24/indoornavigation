@@ -2,6 +2,7 @@ import { Button, Form, Input, Space, Modal, Select } from 'antd';
 import React, { useState, useEffect } from 'react';
 
 import Axios from 'axios';
+import { useSelector } from 'react-redux';
 // import _isEmpty from 'lodash/isEmpty';
 const { TextArea } = Input;
 const { Option } = Select;
@@ -13,8 +14,29 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 			endDate: '',
 			highlights: ''
 		}),
-		[ malls, setMalls ] = useState([]),
+		[ malls, setMalls ] = useState([
+			{
+				ID: 1,
+				MALL_NAMES: 'Phoenix-Mall'
+			},
+			{
+				ID: 2,
+				MALL_NAMES: 'Nexus-Mall'
+			},
+			{
+				ID: 3,
+				MALL_NAMES: 'Marina-Mall'
+			},
+			{
+				ID: 4,
+				MALL_NAMES: 'EA-Mall'
+			}
+		]),
 		[ selectedMallId, setSelectedMallId ] = useState();
+
+	const AllMalls = useSelector((state) => state.allMalls);
+
+	console.log('AllMalls', AllMalls);
 
 	const url = 'http://192.168.0.164:3000/FindMyWay/api/test/add-highlight';
 

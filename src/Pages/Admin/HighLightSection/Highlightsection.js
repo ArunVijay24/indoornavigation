@@ -15,7 +15,24 @@ const Highlightsection = () => {
 		[ updateModal, setUpdateModal ] = useState(false),
 		[ modalValue, setModalValue ] = useState({}),
 		[ mallData, setMallData ] = useState([]),
-		[ malls, setMalls ] = useState([]);
+		[ malls, setMalls ] = useState([
+			{
+				ID: 1,
+				MALL_NAMES: 'Phoenix-Mall'
+			},
+			{
+				ID: 2,
+				MALL_NAMES: 'Nexus-Mall'
+			},
+			{
+				ID: 3,
+				MALL_NAMES: 'Marina-Mall'
+			},
+			{
+				ID: 4,
+				MALL_NAMES: 'EA-Mall'
+			}
+		]);
 
 	const Highlights = useSelector((state) => state.allHighlights);
 	const AllMalls = useSelector((state) => state.allMalls);
