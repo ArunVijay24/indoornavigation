@@ -46,7 +46,6 @@ const Highlightsection = () => {
 		})
 			.then(({ data, status }) => {
 				setMalls(data.data);
-				dispatch(getAllMalls(data.data));
 			})
 			.catch((error) => {
 				console.log('error: ', error);

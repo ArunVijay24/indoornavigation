@@ -8,6 +8,7 @@ const { TextArea } = Input;
 const { Option } = Select;
 
 const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
+	console.log('initValue', initValue);
 	const [ initialValues, setInitialValues ] = useState({
 			mallId: '',
 			startDate: '',
