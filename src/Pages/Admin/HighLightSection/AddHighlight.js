@@ -40,7 +40,7 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 
 	const AllMalls = useSelector((state) => state.allMalls);
 
-	console.log('AllMalls', AllMalls);
+	//console.log('AllMalls', AllMalls);
 
 	const url = 'http://192.168.68.123:3000/FindMyWay/api/test/add-highlight';
 
@@ -74,23 +74,21 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 
 	useEffect(
 		() => {
-			console.log('iniy val before', initValue);
 			if (initValue !== undefined) {
 				const { START_DATE, END_DATE, HIGHLIGHTS } = initValue;
-				console.log('hjuaidsfa', selectedMallId, initValue.START_DATE);
-				//console.log('yesssssssssssss');
-				console.log('startdate');
 				setInitialValues({
 					mallId: selectedMallId,
-					startDate: moment(START_DATE).format('MM-DD-YYYY'),
-					endDate: moment(END_DATE).format('MM-DD-YYYY'),
+					startDate: moment(START_DATE),
+					endDate: moment(END_DATE),
 					highlights: HIGHLIGHTS
 				});
 			}
 		},
 		[ initValue, selectedMallId ]
 	);
-	console.log('initial', initialValues);
+
+	//console.log('initial', initialValues);
+
 	useEffect(() => {
 		Axios({
 			method: 'get',
@@ -162,7 +160,7 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 						)}
 						<Form.Item
 							label="Highlight Message"
-							name="highlight"
+							name="highlights"
 							rules={[ { required: true, message: 'Please enter highlight message' } ]}
 						>
 							<TextArea rows={4} placeholder="Enter Message" />
