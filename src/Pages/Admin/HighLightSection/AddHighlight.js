@@ -14,9 +14,10 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 	const { form } = Form.useForm();
 	const [ initialValues, setInitialValues ] = useState({
 			mallId: '',
+			Id: '',
 			startDate: '',
 			endDate: '',
-			highlights: ''
+			highlight: ''
 		}),
 		[ malls, setMalls ] = useState([
 			{
@@ -42,12 +43,18 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 
 	//console.log('AllMalls', AllMalls);
 
-	const url = 'http://192.168.68.123:3000/FindMyWay/api/test/add-highlight';
+	const url = `http://192.168.68.123:3000/FindMyWay/api/test/${type === 'Addnew' ? 'add' : 'update'}-highlight`;
+	//const url2 = 'http://192.168.68.123:3000/FindMyWay/api/test/update-highlights';
 
 	const mallsurl = 'http://192.168.68.123:3000/FindMyWay/api/test/malls';
 
 	const onFinish = (values) => {
-		makeAPICall(values);
+		values['startDate'] = moment(values.startDate).format('YYYY-MM-DD');
+		values['endDate'] = moment(values.endDate).format('YYYY-MM-DD');
+		console.log('valuessss', { ...values });
+
+		let payload = { ...values, Id: initialValues.Id };
+		makeAPICall(payload);
 	};
 
 	const onFinishFailed = (errorInfo) => {
@@ -75,12 +82,13 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 	useEffect(
 		() => {
 			if (initValue !== undefined) {
-				const { START_DATE, END_DATE, HIGHLIGHTS } = initValue;
+				const { Id, START_DATE, END_DATE, HIGHLIGHTS } = initValue;
 				setInitialValues({
 					mallId: selectedMallId,
+					Id: Id,
 					startDate: moment(START_DATE),
 					endDate: moment(END_DATE),
-					highlights: HIGHLIGHTS
+					highlight: HIGHLIGHTS
 				});
 			}
 		},
@@ -127,14 +135,14 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 							name="startDate"
 							rules={[ { required: true, message: 'Please enter start date' } ]}
 						>
-							<DatePicker />
+							<DatePicker format="YYYY-MM-DD" />
 						</Form.Item>
 						<Form.Item
 							label="End Date"
 							name="endDate"
 							rules={[ { required: true, message: 'Please enter end date' } ]}
 						>
-							<DatePicker />
+							<DatePicker format="YYYY-MM-DD" />
 						</Form.Item>
 						{type === 'Addnew' && (
 							<Form.Item
@@ -160,7 +168,7 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 						)}
 						<Form.Item
 							label="Highlight Message"
-							name="highlights"
+							name="highlight"
 							rules={[ { required: true, message: 'Please enter highlight message' } ]}
 						>
 							<TextArea rows={4} placeholder="Enter Message" />
