@@ -1,16 +1,16 @@
 import { ALLHIGHLIGHTS, HIGHLIGHTSBYID, ALLMALLS } from './actionType';
 const initialState = {
-	allHighlights: [],
+//	allHighlights: [],
 	highlightById: [],
 	allMalls: []
 };
 
 const Reducer = (state = initialState, action) => {
 	switch (action.type) {
-		case ALLHIGHLIGHTS:
-			return {
-				allHighlights: [ ...state.allHighlights, action.payload ]
-			};
+		// case ALLHIGHLIGHTS:
+		// 	return {
+		// 		allHighlights: [ ...state.allHighlights, action.payload ]
+		// 	};
 		case HIGHLIGHTSBYID:
 			return {
 				highlightById: [ ...state.highlightById, action.payload ]

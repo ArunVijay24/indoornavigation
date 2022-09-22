@@ -1,9 +1,21 @@
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+//Redux
+import { getHighlightTableData } from '../../../Services/AdminHighlight/action';
+
+//Others
 import { Button, Table } from 'antd';
 
-import Axios from 'axios';
-import { useEffect, useState } from 'react';
-
 const HighlightTable = ({ modal, initVal, mallData }) => {
+	const dispatch = useDispatch();
+
+	const { highlightTableData } = useSelector(({ highlightReducer }) => {
+		return {
+			highlightTableData: highlightReducer.response.highlightTableData
+		}
+	})
+
 	const [ dataSource, setDataSource ] = useState([
 		{
 			ID: 1,
@@ -13,12 +25,12 @@ const HighlightTable = ({ modal, initVal, mallData }) => {
 		}
 	]);
 
-	const url = 'http://192.168.68.123:3000/FindMyWay/api/test/highlights';
+	useEffect(() => {
+		dispatch(getHighlightTableData());
+	},[])
 
 	const renderTableCell = (cell, row) => {
 		const { START_DATE, END_DATE, HIGHLIGHTS } = row;
-
-		console.log('row', row);
 
 		switch (cell) {
 			case START_DATE:
@@ -69,26 +81,7 @@ const HighlightTable = ({ modal, initVal, mallData }) => {
 		}
 	];
 
-	const makeAPICall = async () => {
-		Axios({
-			method: 'get',
-			url: url,
-			headers: { 'Access-Control-Allow-Origin': '*' }
-		})
-			.then(({ data, status }) => {
-				if (status === 200) {
-					setDataSource(data.data);
-				}
-			})
-			.catch((error) => {
-				console.log('error: ', error);
-			});
-	};
-	useEffect(() => {
-		makeAPICall();
-	}, []);
-
-	return <Table dataSource={dataSource} columns={columns} className="highlight" rowKey="ID" />;
+	return <Table dataSource={highlightTableData ? highlightTableData : dataSource} columns={columns} className="highlight" rowKey="Id" />;
 };
 
 export default HighlightTable;

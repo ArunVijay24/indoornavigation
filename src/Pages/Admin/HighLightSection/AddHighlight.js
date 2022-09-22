@@ -10,7 +10,7 @@ const { TextArea } = Input;
 const { Option } = Select;
 
 const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
-	//console.log('initValue', initValue);
+
 	const { form } = Form.useForm();
 	const [ initialValues, setInitialValues ] = useState({
 			mallId: '',
@@ -39,14 +39,14 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 		]),
 		[ selectedMallId, setSelectedMallId ] = useState();
 
-	const AllMalls = useSelector((state) => state.allMalls);
-
-	//console.log('AllMalls', AllMalls);
+		const { allMallsData } = useSelector(({ highlightReducer }) => {
+			return {
+				allMallsData: highlightReducer.response.allMallsData
+			}
+		})
 
 	const url = `http://192.168.68.123:3000/FindMyWay/api/test/${type === 'Addnew' ? 'add' : 'update'}-highlight`;
 	//const url2 = 'http://192.168.68.123:3000/FindMyWay/api/test/update-highlights';
-
-	const mallsurl = 'http://192.168.68.123:3000/FindMyWay/api/test/malls';
 
 	const onFinish = (values) => {
 		values['startDate'] = moment(values.startDate).format('YYYY-MM-DD');
@@ -65,7 +65,7 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 	};
 
 	const makeAPICall = async (values) => {
-		Axios({
+	  await	Axios({
 			method: 'post',
 			url: url,
 			data: values
@@ -95,21 +95,6 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 		[ initValue, selectedMallId ]
 	);
 
-	//console.log('initial', initialValues);
-
-	useEffect(() => {
-		Axios({
-			method: 'get',
-			url: mallsurl
-		})
-			.then(({ data, status }) => {
-				setMalls(data.data);
-			})
-			.catch((error) => {
-				console.log('error: ', error);
-			});
-	}, []);
-
 	return (
 		<React.Fragment>
 			<Modal
@@ -135,14 +120,14 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 							name="startDate"
 							rules={[ { required: true, message: 'Please enter start date' } ]}
 						>
-							<DatePicker format="YYYY-MM-DD" />
+							<DatePicker format="YYYY-MM-DD" allowClear={false} />
 						</Form.Item>
 						<Form.Item
 							label="End Date"
 							name="endDate"
 							rules={[ { required: true, message: 'Please enter end date' } ]}
 						>
-							<DatePicker format="YYYY-MM-DD" />
+							<DatePicker format="YYYY-MM-DD" allowClear={false} />
 						</Form.Item>
 						{type === 'Addnew' && (
 							<Form.Item
@@ -158,7 +143,7 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 									filterOption={(input, option) =>
 										option.children.toLowerCase().includes(input.toLowerCase())}
 								>
-									{malls.map((option) => (
+									{allMallsData && allMallsData.map((option) => (
 										<Option key={option.ID} value={option.ID}>
 											{option.MALL_NAMES}
 										</Option>
