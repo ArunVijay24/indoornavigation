@@ -105,6 +105,8 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 				onOk={closeModal}
 				onCancel={closeModal}
 				footer={null}
+				destroyOnClose={true}
+				maskClosable={false}
 			>
 				<Space>
 					<Form onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off">
