@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 //antd
 import { UserOutlined, DoubleRightOutlined, UserAddOutlined } from '@ant-design/icons';
@@ -19,7 +19,7 @@ import Layoutsider from './Components/Layoutsider/Layoutsider';
 const { Content } = Layout;
 
 const App = () => {
-	const role = 'admin';
+	const [ role, setRole ] = useState('');
 
 	const items = [
 		{
@@ -43,11 +43,11 @@ const App = () => {
 			onClick: () => navigate('/highlightsection')
 		}
 	];
-
+	console.log('role', role);
 	const navigate = useNavigate();
 	return role === 'admin' ? (
 		<Layout className="layout">
-			<Layoutsider items={items2} />
+			<Layoutsider items={items2} roleChange={(val) => setRole(val)} />
 			<Layout className="site-layout contentimg">
 				<Content className="">
 					<Routes>
@@ -58,7 +58,7 @@ const App = () => {
 		</Layout>
 	) : (
 		<Layout className="layout">
-			<Layoutsider items={items} />
+			<Layoutsider items={items} roleChange={(val) => setRole(val)} />
 			<Layout className="site-layout contentimg">
 				<Content className="">
 					<Routes>
