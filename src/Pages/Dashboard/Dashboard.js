@@ -4,7 +4,7 @@ import imageurl from '../../assets/images/Mall.jpg';
 import { Media } from 'reactstrap';
 import { Card, Select, Space } from 'antd';
 import Axios from 'axios';
-import _isEmpty from 'lodash/isEmpty';
+// import _isEmpty from 'lodash/isEmpty';
 import moment from 'moment/moment';
 const { Option } = Select;
 
@@ -32,7 +32,7 @@ const Dashboard = () => {
 		[ image, setImage ] = useState(imageurl),
 		[ mallName, setMallName ] = useState('');
 
-	const mallsurl = 'http://192.168.68.123:3000/FindMyWay/api/test/malls';
+	const mallsurl = 'http://192.168.0.164:3000/FindMyWay/api/test/malls';
 	useEffect(() => {
 		Axios({
 			method: 'get',
@@ -46,7 +46,7 @@ const Dashboard = () => {
 			});
 	}, []);
 
-	const getbymallsurl = 'http://192.168.68.123:3000/FindMyWay/api/test/highlightsByMall';
+	const getbymallsurl = 'http://192.168.0.164:3000/FindMyWay/api/test/highlightsByMall';
 	const onChange = (value) => {
 		let img = malls.filter((mall) => mall.ID === value);
 		setImage(img[0].LINKS);
@@ -108,7 +108,7 @@ const Dashboard = () => {
 			</div>
 			<div className="site-layout-content" />
 			<Space>
-				{mallData.map((mall) => (
+				{validHighlights.map((mall) => (
 					<Card key={mall.ID} extra={<a href="#">More</a>} style={{ width: 300, height: 200 }}>
 						<h3>{mall.HIGHLIGHTS}</h3>
 					</Card>
