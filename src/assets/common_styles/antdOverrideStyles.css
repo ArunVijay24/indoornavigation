@@ -53,3 +53,10 @@ span.anticon.anticon-menu-fold.trigger {
 	display: flex;
 	justify-content: center;
 }
+
+.ant-picker {
+	width: 100%;
+}
+.ant-form-item {
+	text-align: center;
+}
