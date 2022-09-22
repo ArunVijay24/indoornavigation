@@ -1,14 +1,17 @@
-import { Button, Form, Input, Space, Modal, Select } from 'antd';
+import { Button, Form, Input, Space, Modal, Select, DatePicker } from 'antd';
 import React, { useState, useEffect } from 'react';
+import moment from 'moment';
 
 import Axios from 'axios';
 import { useSelector } from 'react-redux';
-// import _isEmpty from 'lodash/isEmpty';
+// import { isEmpty } from 'lodash';
+import _isEmpty from 'lodash/isEmpty';
 const { TextArea } = Input;
 const { Option } = Select;
 
 const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
-	console.log('initValue', initValue);
+	//console.log('initValue', initValue);
+	const { form } = Form.useForm();
 	const [ initialValues, setInitialValues ] = useState({
 			mallId: '',
 			startDate: '',
@@ -71,18 +74,23 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 
 	useEffect(
 		() => {
-			if (initValue) {
+			console.log('iniy val before', initValue);
+			if (initValue !== undefined) {
+				const { START_DATE, END_DATE, HIGHLIGHTS } = initValue;
+				console.log('hjuaidsfa', selectedMallId, initValue.START_DATE);
+				//console.log('yesssssssssssss');
+				console.log('startdate');
 				setInitialValues({
 					mallId: selectedMallId,
-					startDate: initValue.START_DATE,
-					endDate: initValue.END_DATE,
-					highlights: initValue.HIGHLIGHTS
+					startDate: moment(START_DATE).format('MM-DD-YYYY'),
+					endDate: moment(END_DATE).format('MM-DD-YYYY'),
+					highlights: HIGHLIGHTS
 				});
 			}
 		},
 		[ initValue, selectedMallId ]
 	);
-
+	console.log('initial', initialValues);
 	useEffect(() => {
 		Axios({
 			method: 'get',
@@ -109,20 +117,26 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 				maskClosable={false}
 			>
 				<Space>
-					<Form onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off">
+					<Form
+						form={form}
+						onFinish={onFinish}
+						onFinishFailed={onFinishFailed}
+						autoComplete="off"
+						initialValues={initialValues}
+					>
 						<Form.Item
 							label="Start Date"
 							name="startDate"
 							rules={[ { required: true, message: 'Please enter start date' } ]}
 						>
-							<Input type="date" value={initialValues.startDate} />
+							<DatePicker />
 						</Form.Item>
 						<Form.Item
 							label="End Date"
 							name="endDate"
 							rules={[ { required: true, message: 'Please enter end date' } ]}
 						>
-							<Input type="date" value={initialValues.endDate} />
+							<DatePicker />
 						</Form.Item>
 						{type === 'Addnew' && (
 							<Form.Item
@@ -151,7 +165,7 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 							name="highlight"
 							rules={[ { required: true, message: 'Please enter highlight message' } ]}
 						>
-							<TextArea rows={4} placeholder="Enter Message" value={initialValues.highlights} />
+							<TextArea rows={4} placeholder="Enter Message" />
 						</Form.Item>
 						<Form.Item className="highlightbtns">
 							<Space>
