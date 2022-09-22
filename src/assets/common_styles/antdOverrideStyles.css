@@ -60,3 +60,7 @@ span.anticon.anticon-menu-fold.trigger {
 .ant-form-item {
 	text-align: center;
 }
+aside.ant-layout-sider.ant-layout-sider-dark.ant-layout-sider-collapsed {
+	min-width: 172px !important;
+	width: 172px !important;
+}
