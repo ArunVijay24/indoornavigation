@@ -105,7 +105,7 @@ const Highlightsection = () => {
 						initValue={modalValue}
 					/>
 				)}
-				<MallModal openModal={addMallModal} closeModal={() => setAddMallModal} />
+				<MallModal openModal={addMallModal} closeModal={() => setAddMallModal(false)} />
 			</div>
 		</div>
 	);

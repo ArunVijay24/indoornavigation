@@ -3,8 +3,8 @@ import React from 'react';
 
 import Axios from 'axios';
 
-const MallModal = ({ type, openModal, closeModal }) => {
-	const url = 'http://192.168.68.123:3000/FindMyWay/api/test/addMal';
+const MallModal = ({ openModal, closeModal }) => {
+	const url = 'http://192.168.68.123:3000/FindMyWay/api/test/addMall';
 
 	const onFinish = (values) => {
 		makeAPICall(values);
