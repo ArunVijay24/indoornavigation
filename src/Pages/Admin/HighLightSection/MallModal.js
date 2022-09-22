@@ -4,7 +4,7 @@ import React from 'react';
 import Axios from 'axios';
 
 const MallModal = ({ openModal, closeModal }) => {
-	const url = 'http://192.168.68.123:3000/FindMyWay/api/test/addMall';
+	const url = 'http://192.168.0.164:3000/FindMyWay/api/test/addMall';
 
 	const onFinish = (values) => {
 		makeAPICall(values);

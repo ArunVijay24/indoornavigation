@@ -9,7 +9,6 @@ const { TextArea } = Input;
 const { Option } = Select;
 
 const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
-
 	const { form } = Form.useForm();
 
 	const layout = {
@@ -23,38 +22,25 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 	
 	const [ initialValues, setInitialValues ] = useState({
 			mallId: '',
+			shopId: '',
 			Id: '',
 			startDate: '',
 			endDate: '',
 			highlight: ''
 		}),
-		[ malls, setMalls ] = useState([
-			{
-				ID: 1,
-				MALL_NAMES: 'Phoenix-Mall'
-			},
-			{
-				ID: 2,
-				MALL_NAMES: 'Nexus-Mall'
-			},
-			{
-				ID: 3,
-				MALL_NAMES: 'Marina-Mall'
-			},
-			{
-				ID: 4,
-				MALL_NAMES: 'EA-Mall'
-			}
-		]),
-		[ selectedMallId, setSelectedMallId ] = useState();
+		[ selectedMallId, setSelectedMallId ] = useState(),
+		[ selectedShopId, setSelectedShopId ] = useState(),
+		[ shopsData, setShopsData ] = useState([]);
 
-		const { allMallsData } = useSelector(({ highlightReducer }) => {
-			return {
-				allMallsData: highlightReducer.response.allMallsData
-			}
-		})
+	const { allMallsData } = useSelector(({ highlightReducer }) => {
+		return {
+			allMallsData: highlightReducer.response.allMallsData
+		};
+	});
 
-	const url = `http://192.168.68.123:3000/FindMyWay/api/test/${type === 'Addnew' ? 'add' : 'update'}-highlight`;
+	const url = `http://192.168.0.164:3000/FindMyWay/api/test/${type === 'Addnew' ? 'add' : 'update'}-highlight`;
+	//const url2 = 'http://192.168.68.123:3000/FindMyWay/api/test/update-highlights';
+	const url2 = 'http://192.168.0.164:3000/FindMyWay/api/test/shopById/';
 
 	const onFinish = (values) => {
 		values['startDate'] = moment(values.startDate).format('YYYY-MM-DD');
@@ -70,10 +56,25 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 	};
 	const onChange = (value) => {
 		setSelectedMallId(value);
+		Axios({
+			method: 'get',
+			url: url2 + `${value}`
+		})
+			.then(({ data, status }) => {
+				console.log('data: ', data, status);
+				setShopsData(data.data);
+			})
+			.catch((error) => {
+				console.log('error: ', error);
+			});
+	};
+
+	const onChange2 = (value) => {
+		setSelectedShopId(value);
 	};
 
 	const makeAPICall = async (values) => {
-	  await	Axios({
+		await Axios({
 			method: 'post',
 			url: url,
 			data: values
@@ -93,6 +94,7 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 				const { Id, START_DATE, END_DATE, HIGHLIGHTS } = initValue;
 				setInitialValues({
 					mallId: selectedMallId,
+					shopId: selectedShopId,
 					Id: Id,
 					startDate: moment(START_DATE),
 					endDate: moment(END_DATE),
@@ -151,11 +153,35 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 									filterOption={(input, option) =>
 										option.children.toLowerCase().includes(input.toLowerCase())}
 								>
-									{allMallsData && allMallsData.map((option) => (
-										<Option key={option.ID} value={option.ID}>
-											{option.MALL_NAMES}
-										</Option>
-									))}
+									{allMallsData &&
+										allMallsData.map((option) => (
+											<Option key={option.ID} value={option.ID}>
+												{option.MALL_NAMES}
+											</Option>
+										))}
+								</Select>
+							</Form.Item>
+						)}
+						{type === 'Addnew' && (
+							<Form.Item
+								label="Shop"
+								name="shopId"
+								rules={[ { required: true, message: 'Please select the shop' } ]}
+							>
+								<Select
+									showSearch
+									placeholder="Select a Shop"
+									optionFilterProp="children"
+									onChange={onChange2}
+									filterOption={(input, option) =>
+										option.children.toLowerCase().includes(input.toLowerCase())}
+								>
+									{shopsData &&
+										shopsData.map((option) => (
+											<Option key={option.ID} value={option.ID}>
+												{option.SHOP_NAME}
+											</Option>
+										))}
 								</Select>
 							</Form.Item>
 						)}

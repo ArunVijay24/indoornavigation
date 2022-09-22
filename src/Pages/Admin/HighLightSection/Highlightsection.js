@@ -15,7 +15,6 @@ import { Button, Select, Space } from 'antd';
 import Axios from 'axios';
 import _isEmpty from 'lodash/isEmpty';
 
-
 const { Option } = Select;
 
 const Highlightsection = () => {
@@ -39,14 +38,18 @@ const Highlightsection = () => {
 				ID: 4,
 				MALL_NAMES: 'EA-Mall'
 			}
-		]);
+		]),
+		[ selectedMallId, setSelectedMallId ] = useState(),
+		[ selectedShopId, setSelectedShopId ] = useState(),
+		[ shopsData, setShopsData ] = useState([]);
+
 	const dispatch = useDispatch();
 
 	const { allMallsData } = useSelector(({ highlightReducer }) => {
 		return {
 			allMallsData: highlightReducer.response.allMallsData
-		}
-	})
+		};
+	});
 
 	useEffect(() => {
 		API_CALL({
@@ -54,14 +57,15 @@ const Highlightsection = () => {
 			url: `malls`,
 			callback: ({ data, status }) => {
 				if (status === 200) {
-					dispatch(getAllMallsData(data.data))
+					dispatch(getAllMallsData(data.data));
 				}
 			}
-		})
+		});
 	}, []);
-	
-	const getbymallsurl = 'http://192.168.68.123:3000/FindMyWay/api/test/highlightsByMall';
+
+	const getbymallsurl = 'http://192.168.0.164:3000/FindMyWay/api/test/highlightsByMall';
 	const onChange = (value) => {
+		setSelectedMallId(value);
 		Axios({
 			method: 'get',
 			url: getbymallsurl,
@@ -69,13 +73,56 @@ const Highlightsection = () => {
 		})
 			.then(({ data, status }) => {
 				setMallData(data.data);
-				
+			})
+			.catch((error) => {
+				console.log('error: ', error);
+			});
+		Axios({
+			method: 'get',
+			url: url2 + `${value}`
+		})
+			.then(({ data, status }) => {
+				console.log('data: ', data, status);
+				setShopsData(data.data);
 			})
 			.catch((error) => {
 				console.log('error: ', error);
 			});
 	};
 
+	const url2 = 'http://192.168.0.164:3000/FindMyWay/api/test/shopById/';
+
+	const onChange2 = (value) => {
+		setSelectedShopId(value);
+	};
+	console.log('sv', selectedMallId, selectedShopId);
+
+	const url3 = 'http://192.168.0.164:3000/FindMyWay/api/test/highlightById';
+	const makeAPICall = async (values) => {
+		await Axios({
+			method: 'post',
+			url: url3,
+			data: values
+		})
+			.then(({ data, status }) => {
+				console.log('data3: ', data, status);
+			})
+			.catch((error) => {
+				console.log('error: ', error);
+			});
+	};
+	useEffect(
+		() => {
+			if (selectedMallId && selectedShopId) {
+				let payload = {
+					mallId: selectedMallId,
+					shopId: selectedShopId
+				};
+				makeAPICall(payload);
+			}
+		},
+		[ selectedMallId, selectedShopId ]
+	);
 	return (
 		<div className="content">
 			<div className="site-layout-content">
@@ -89,11 +136,26 @@ const Highlightsection = () => {
 						onChange={onChange}
 						filterOption={(input, option) => option.children.toLowerCase().includes(input.toLowerCase())}
 					>
-						{allMallsData && allMallsData.map((option) => (
-							<Option key={option.ID} value={option.ID}>
-								{option.MALL_NAMES}
-							</Option>
-						))}
+						{allMallsData &&
+							allMallsData.map((option) => (
+								<Option key={option.ID} value={option.ID}>
+									{option.MALL_NAMES}
+								</Option>
+							))}
+					</Select>
+					<Select
+						showSearch
+						placeholder="Select a Shop"
+						optionFilterProp="children"
+						onChange={onChange2}
+						filterOption={(input, option) => option.children.toLowerCase().includes(input.toLowerCase())}
+					>
+						{shopsData &&
+							shopsData.map((option) => (
+								<Option key={option.ID} value={option.ID}>
+									{option.SHOP_NAME}
+								</Option>
+							))}
 					</Select>
 				</Space>
 				<HighlightTable />
