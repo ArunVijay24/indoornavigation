@@ -11,6 +11,16 @@ const { Option } = Select;
 const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 
 	const { form } = Form.useForm();
+
+	const layout = {
+		labelCol: {
+		  span: 12,
+		},
+		wrapperCol: {
+		  span: 16,
+		},
+	};
+	
 	const [ initialValues, setInitialValues ] = useState({
 			mallId: '',
 			Id: '',
@@ -45,12 +55,11 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 		})
 
 	const url = `http://192.168.68.123:3000/FindMyWay/api/test/${type === 'Addnew' ? 'add' : 'update'}-highlight`;
-	//const url2 = 'http://192.168.68.123:3000/FindMyWay/api/test/update-highlights';
 
 	const onFinish = (values) => {
 		values['startDate'] = moment(values.startDate).format('YYYY-MM-DD');
 		values['endDate'] = moment(values.endDate).format('YYYY-MM-DD');
-		console.log('valuessss', { ...values });
+		//console.log('valuessss', { ...values });
 
 		let payload = { ...values, Id: initialValues.Id };
 		makeAPICall(payload);
@@ -80,7 +89,7 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 
 	useEffect(
 		() => {
-			if (initValue !== undefined) {
+			if (initValue) {
 				const { Id, START_DATE, END_DATE, HIGHLIGHTS } = initValue;
 				setInitialValues({
 					mallId: selectedMallId,
@@ -93,10 +102,9 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 		},
 		[ initValue, selectedMallId ]
 	);
-
+		
 	return (
-		<React.Fragment>
-			<Modal
+		    <Modal
 				title={type === 'Addnew' ? 'New Highlight' : 'Edit Highlight'}
 				centered
 				open={openModal}
@@ -108,6 +116,7 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 			>
 				<Space>
 					<Form
+						{...layout}
 						form={form}
 						onFinish={onFinish}
 						onFinishFailed={onFinishFailed}
@@ -170,7 +179,6 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 					</Form>
 				</Space>
 			</Modal>
-		</React.Fragment>
 	);
 };
 

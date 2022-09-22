@@ -20,9 +20,7 @@ const { Option } = Select;
 
 const Highlightsection = () => {
 	const [ addModal, setAddModal ] = useState(false),
-		[ updateModal, setUpdateModal ] = useState(false),
 		[ addMallModal, setAddMallModal ] = useState(false),
-		[ modalValue, setModalValue ] = useState({}),
 		[ mallData, setMallData ] = useState([]),
 		[ malls, setMalls ] = useState([
 			{
@@ -77,6 +75,7 @@ const Highlightsection = () => {
 				console.log('error: ', error);
 			});
 	};
+
 	return (
 		<div className="content">
 			<div className="site-layout-content">
@@ -85,7 +84,6 @@ const Highlightsection = () => {
 					<Button onClick={() => setAddModal(true)}>Add Highlights</Button>
 					<Button onClick={() => setAddMallModal(true)}>Add New Mall</Button>
 					<Select
-						showSearch
 						placeholder="Select a Mall"
 						optionFilterProp="children"
 						onChange={onChange}
@@ -98,20 +96,8 @@ const Highlightsection = () => {
 						))}
 					</Select>
 				</Space>
-				<HighlightTable
-					modal={(val) => setUpdateModal(val)}
-					initVal={(val) => setModalValue(val)}
-					data={mallData}
-				/>
+				<HighlightTable />
 				<HighLightModal type="Addnew" openModal={addModal} closeModal={() => setAddModal(false)} />
-				{!_isEmpty(modalValue) && (
-					<HighLightModal
-						type="Update"
-						openModal={updateModal}
-						closeModal={() => setUpdateModal(false)}
-						initValue={modalValue}
-					/>
-				)}
 				<MallModal openModal={addMallModal} closeModal={() => setAddMallModal(false)} />
 			</div>
 		</div>

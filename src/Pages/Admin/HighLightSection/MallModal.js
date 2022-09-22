@@ -51,7 +51,7 @@ const MallModal = ({ openModal, closeModal }) => {
 							<Input type="text" />
 						</Form.Item>
 						<Form.Item>
-							<Space>
+							<Space style={{textAlign: 'center'}}>
 								<Button type="secondary" onClick={closeModal}>
 									Cancel
 								</Button>

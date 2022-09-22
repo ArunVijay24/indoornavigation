@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 //Components
 import SkeletonStructure from '../../../Components/SkeletonStructure';
+import HighLightModal from './AddHighlight';
 
 //Redux
 import { getHighlightTableData } from '../../../Services/AdminHighlight/action';
@@ -10,7 +11,9 @@ import { getHighlightTableData } from '../../../Services/AdminHighlight/action';
 //Others
 import { Button, Table } from 'antd';
 
-const HighlightTable = ({ modal, initVal, mallData }) => {
+const HighlightTable = () => {
+	const [updateModal, setUpdateModal] = useState(false);
+	const [modalData, setModalData] = useState({})
 	const dispatch = useDispatch();
 
 	const { highlightTableData, tableDataLoader } = useSelector(({ highlightReducer }) => {
@@ -20,72 +23,69 @@ const HighlightTable = ({ modal, initVal, mallData }) => {
 		}
 	})
 
-	const [ dataSource, setDataSource ] = useState([
+	const dataSource = [
 		{
-			ID: 1,
-			START_DATE: '2008-11-11T00:00:00.000Z',
-			END_DATE: '2008-11-11T00:00:00.000Z',
+			Id: 1,
+			START_DATE: '2008-11-11',
+			END_DATE: '2008-11-24',
 			HIGHLIGHTS: 'TESTING'
+		},
+		{
+			Id: 2,
+			START_DATE: '2005-11-11',
+			END_DATE: '2005-11-24',
+			HIGHLIGHTS: 'OFFER'
 		}
-	]);
+	]
 
 	useEffect(() => {
 		dispatch(getHighlightTableData());
 	},[])
-
-	const renderTableCell = (cell, row) => {
-		const { START_DATE, END_DATE, HIGHLIGHTS } = row;
-
-		switch (cell) {
-			case START_DATE:
-				return <div className="text-capitalize pl-3">{START_DATE}</div>;
-			case END_DATE:
-				return <div className="text-capitalize pl-3">{END_DATE}</div>;
-			case HIGHLIGHTS:
-				return <div className="pl-3">{HIGHLIGHTS ? HIGHLIGHTS : '--'}</div>;
-			default:
-				return (
-					<Button
-						className="px-4 edit"
-						onClick={() => {
-							initVal(row);
-							modal(true);
-						}}
-					>
-						Edit
-					</Button>
-				);
-		}
-	};
 
 	const columns = [
 		{
 			title: 'Start Date',
 			dataIndex: 'START_DATE',
 			key: 'START_DATE',
-			render: renderTableCell
 		},
 		{
 			title: 'End Date',
 			dataIndex: 'END_DATE',
 			key: 'END_DATE',
-			render: renderTableCell
 		},
 		{
 			title: 'Highlight Message',
 			dataIndex: 'HIGHLIGHTS',
 			key: 'HIGHLIGHTS',
-			render: renderTableCell
 		},
 		{
 			title: 'Actions',
 			dataIndex: 'actions',
 			key: 'actions',
-			render: renderTableCell
+			render: (_, record) => { 
+				return ( <Button
+					className="px-4 edit"
+					onClick={() => {
+						setModalData(record);
+				        setUpdateModal(true)
+					}}
+				>
+					Edit
+				</Button>
+			);}
 		}
 	];
 
-	return tableDataLoader ? <SkeletonStructure type={'table'} noOfColumn={4} /> : <Table dataSource={highlightTableData ? highlightTableData : dataSource} columns={columns} className="highlight" rowKey="Id" />;
+	return tableDataLoader ? <SkeletonStructure type={'table'} noOfColumn={4} /> :
+		<Fragment>
+		    <HighLightModal
+				type="Update"
+				openModal={updateModal}
+				closeModal={() => setUpdateModal(false)}
+				initValue={modalData}
+				/>
+		    <Table dataSource={dataSource} columns={columns} className="highlight" rowKey="Id" />
+	    </Fragment>
 };
 
 export default HighlightTable;
