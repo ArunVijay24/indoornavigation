@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+//Components
+import SkeletonStructure from '../../../Components/SkeletonStructure';
+
 //Redux
 import { getHighlightTableData } from '../../../Services/AdminHighlight/action';
 
@@ -10,9 +13,10 @@ import { Button, Table } from 'antd';
 const HighlightTable = ({ modal, initVal, mallData }) => {
 	const dispatch = useDispatch();
 
-	const { highlightTableData } = useSelector(({ highlightReducer }) => {
+	const { highlightTableData, tableDataLoader } = useSelector(({ highlightReducer }) => {
 		return {
-			highlightTableData: highlightReducer.response.highlightTableData
+			highlightTableData: highlightReducer.response.highlightTableData,
+			tableDataLoader: highlightReducer.requesting
 		}
 	})
 
@@ -81,7 +85,7 @@ const HighlightTable = ({ modal, initVal, mallData }) => {
 		}
 	];
 
-	return <Table dataSource={highlightTableData ? highlightTableData : dataSource} columns={columns} className="highlight" rowKey="Id" />;
+	return tableDataLoader ? <SkeletonStructure type={'table'} noOfColumn={4} /> : <Table dataSource={highlightTableData ? highlightTableData : dataSource} columns={columns} className="highlight" rowKey="Id" />;
 };
 
 export default HighlightTable;

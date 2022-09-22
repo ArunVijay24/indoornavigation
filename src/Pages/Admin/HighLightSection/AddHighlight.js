@@ -4,7 +4,6 @@ import moment from 'moment';
 
 import Axios from 'axios';
 import { useSelector } from 'react-redux';
-// import { isEmpty } from 'lodash';
 import _isEmpty from 'lodash/isEmpty';
 const { TextArea } = Input;
 const { Option } = Select;
