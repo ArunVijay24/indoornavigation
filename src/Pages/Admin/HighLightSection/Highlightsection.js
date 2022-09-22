@@ -7,12 +7,14 @@ import _isEmpty from 'lodash/isEmpty';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { getAllMalls } from '../../../Services/HighlighManagement/action';
+import MallModal from './MallModal';
 
 const { Option } = Select;
 
 const Highlightsection = () => {
 	const [ addModal, setAddModal ] = useState(false),
 		[ updateModal, setUpdateModal ] = useState(false),
+		[ addMallModal, setAddMallModal ] = useState(false),
 		[ modalValue, setModalValue ] = useState({}),
 		[ mallData, setMallData ] = useState([]),
 		[ malls, setMalls ] = useState([
@@ -51,9 +53,9 @@ const Highlightsection = () => {
 				console.log('error: ', error);
 			});
 	}, []);
-	const mallsurl = 'http://192.168.0.164:3000/FindMyWay/api/test/malls';
+	const mallsurl = 'http://192.168.68.123:3000/FindMyWay/api/test/malls';
 
-	const getbymallsurl = 'http://192.168.0.164:3000/FindMyWay/api/test/highlightsByMall';
+	const getbymallsurl = 'http://192.168.68.123:3000/FindMyWay/api/test/highlightsByMall';
 	const onChange = (value) => {
 		Axios({
 			method: 'get',
@@ -74,6 +76,7 @@ const Highlightsection = () => {
 				<h1 className="text-center">Welcome to Highlight</h1>
 				<Space>
 					<Button onClick={() => setAddModal(true)}>Add Highlights</Button>
+					<Button onClick={() => setAddMallModal(true)}>Add New Mall</Button>
 					<Select
 						showSearch
 						placeholder="Select a Mall"
@@ -102,6 +105,7 @@ const Highlightsection = () => {
 						initValue={modalValue}
 					/>
 				)}
+				<MallModal openModal={addMallModal} closeModal={() => setAddMallModal} />
 			</div>
 		</div>
 	);

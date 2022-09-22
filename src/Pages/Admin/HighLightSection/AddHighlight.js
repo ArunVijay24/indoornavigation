@@ -39,9 +39,9 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 
 	console.log('AllMalls', AllMalls);
 
-	const url = 'http://192.168.0.164:3000/FindMyWay/api/test/add-highlight';
+	const url = 'http://192.168.68.123:3000/FindMyWay/api/test/add-highlight';
 
-	const mallsurl = 'http://192.168.0.164:3000/FindMyWay/api/test/malls';
+	const mallsurl = 'http://192.168.68.123:3000/FindMyWay/api/test/malls';
 
 	const onFinish = (values) => {
 		makeAPICall(values);
