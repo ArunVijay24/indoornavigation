@@ -32,7 +32,7 @@ const Dashboard = () => {
 		[ image, setImage ] = useState(imageurl),
 		[ mallName, setMallName ] = useState('');
 
-	const mallsurl = 'http://192.168.0.164:3000/FindMyWay/api/test/malls';
+	const mallsurl = 'http://192.168.68.123:3000/FindMyWay/api/test/malls';
 	useEffect(() => {
 		Axios({
 			method: 'get',
@@ -46,7 +46,7 @@ const Dashboard = () => {
 			});
 	}, []);
 
-	const getbymallsurl = 'http://192.168.0.164:3000/FindMyWay/api/test/highlightsByMall';
+	const getbymallsurl = 'http://192.168.68.123:3000/FindMyWay/api/test/highlightsByMall';
 	const onChange = (value) => {
 		let img = malls.filter((mall) => mall.ID === value);
 		setImage(img[0].LINKS);

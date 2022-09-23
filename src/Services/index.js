@@ -1,7 +1,7 @@
 import axios from 'axios';
 // import store from '../Store/store';
 
-const ROOT_URL = 'http://192.168.0.164:3000/FindMyWay/api/test/';
+const ROOT_URL = 'http://192.168.68.123:3000/FindMyWay/api/test/';
 
 function API_CALL({ method, url, data, type, callback, file, onUploadProgress }) {
 	if (callback) {

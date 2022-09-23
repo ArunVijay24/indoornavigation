@@ -63,7 +63,7 @@ const Highlightsection = () => {
 		});
 	}, []);
 
-	const getbymallsurl = 'http://192.168.0.164:3000/FindMyWay/api/test/highlightsByMall';
+	const getbymallsurl = 'http://192.168.68.123:3000/FindMyWay/api/test/highlightsByMall';
 	const onChange = (value) => {
 		setSelectedMallId(value);
 		Axios({
@@ -90,14 +90,14 @@ const Highlightsection = () => {
 			});
 	};
 
-	const url2 = 'http://192.168.0.164:3000/FindMyWay/api/test/shopById/';
+	const url2 = 'http://192.168.68.123:3000/FindMyWay/api/test/shopById/';
 
 	const onChange2 = (value) => {
 		setSelectedShopId(value);
 	};
 	console.log('sv', selectedMallId, selectedShopId);
 
-	const url3 = 'http://192.168.0.164:3000/FindMyWay/api/test/highlightById';
+	const url3 = 'http://192.168.68.123:3000/FindMyWay/api/test/highlightById';
 	const makeAPICall = async (values) => {
 		await Axios({
 			method: 'post',

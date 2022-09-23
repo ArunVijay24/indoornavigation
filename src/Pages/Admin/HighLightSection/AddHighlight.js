@@ -13,13 +13,13 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 
 	const layout = {
 		labelCol: {
-		  span: 12,
+			span: 12
 		},
 		wrapperCol: {
-		  span: 16,
-		},
+			span: 16
+		}
 	};
-	
+
 	const [ initialValues, setInitialValues ] = useState({
 			mallId: '',
 			shopId: '',
@@ -38,9 +38,9 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 		};
 	});
 
-	const url = `http://192.168.0.164:3000/FindMyWay/api/test/${type === 'Addnew' ? 'add' : 'update'}-highlight`;
+	const url = `http://192.168.68.123:3000/FindMyWay/api/test/${type === 'Addnew' ? 'add' : 'update'}-highlight`;
 	//const url2 = 'http://192.168.68.123:3000/FindMyWay/api/test/update-highlights';
-	const url2 = 'http://192.168.0.164:3000/FindMyWay/api/test/shopById/';
+	const url2 = 'http://192.168.68.123:3000/FindMyWay/api/test/shopById/';
 
 	const onFinish = (values) => {
 		values['startDate'] = moment(values.startDate).format('YYYY-MM-DD');
@@ -104,107 +104,107 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 		},
 		[ initValue, selectedMallId ]
 	);
-		
+
 	return (
-		    <Modal
-				title={type === 'Addnew' ? 'New Highlight' : 'Edit Highlight'}
-				centered
-				open={openModal}
-				onOk={closeModal}
-				onCancel={closeModal}
-				footer={null}
-				destroyOnClose={true}
-				maskClosable={false}
-			>
-				<Space>
-					<Form
-						{...layout}
-						form={form}
-						onFinish={onFinish}
-						onFinishFailed={onFinishFailed}
-						autoComplete="off"
-						initialValues={initialValues}
+		<Modal
+			title={type === 'Addnew' ? 'New Highlight' : 'Edit Highlight'}
+			centered
+			open={openModal}
+			onOk={closeModal}
+			onCancel={closeModal}
+			footer={null}
+			destroyOnClose={true}
+			maskClosable={false}
+		>
+			<Space>
+				<Form
+					{...layout}
+					form={form}
+					onFinish={onFinish}
+					onFinishFailed={onFinishFailed}
+					autoComplete="off"
+					initialValues={initialValues}
+				>
+					<Form.Item
+						label="Start Date"
+						name="startDate"
+						rules={[ { required: true, message: 'Please enter start date' } ]}
 					>
+						<DatePicker format="YYYY-MM-DD" allowClear={false} />
+					</Form.Item>
+					<Form.Item
+						label="End Date"
+						name="endDate"
+						rules={[ { required: true, message: 'Please enter end date' } ]}
+					>
+						<DatePicker format="YYYY-MM-DD" allowClear={false} />
+					</Form.Item>
+					{type === 'Addnew' && (
 						<Form.Item
-							label="Start Date"
-							name="startDate"
-							rules={[ { required: true, message: 'Please enter start date' } ]}
+							label="Mall"
+							name="mallId"
+							rules={[ { required: true, message: 'Please select the mall' } ]}
 						>
-							<DatePicker format="YYYY-MM-DD" allowClear={false} />
-						</Form.Item>
-						<Form.Item
-							label="End Date"
-							name="endDate"
-							rules={[ { required: true, message: 'Please enter end date' } ]}
-						>
-							<DatePicker format="YYYY-MM-DD" allowClear={false} />
-						</Form.Item>
-						{type === 'Addnew' && (
-							<Form.Item
-								label="Mall"
-								name="mallId"
-								rules={[ { required: true, message: 'Please select the mall' } ]}
+							<Select
+								showSearch
+								placeholder="Select a Mall"
+								optionFilterProp="children"
+								onChange={onChange}
+								filterOption={(input, option) =>
+									option.children.toLowerCase().includes(input.toLowerCase())}
 							>
-								<Select
-									showSearch
-									placeholder="Select a Mall"
-									optionFilterProp="children"
-									onChange={onChange}
-									filterOption={(input, option) =>
-										option.children.toLowerCase().includes(input.toLowerCase())}
-								>
-									{allMallsData &&
-										allMallsData.map((option) => (
-											<Option key={option.ID} value={option.ID}>
-												{option.MALL_NAMES}
-											</Option>
-										))}
-								</Select>
-							</Form.Item>
-						)}
-						{type === 'Addnew' && (
-							<Form.Item
-								label="Shop"
-								name="shopId"
-								rules={[ { required: true, message: 'Please select the shop' } ]}
-							>
-								<Select
-									showSearch
-									placeholder="Select a Shop"
-									optionFilterProp="children"
-									onChange={onChange2}
-									filterOption={(input, option) =>
-										option.children.toLowerCase().includes(input.toLowerCase())}
-								>
-									{shopsData &&
-										shopsData.map((option) => (
-											<Option key={option.ID} value={option.ID}>
-												{option.SHOP_NAME}
-											</Option>
-										))}
-								</Select>
-							</Form.Item>
-						)}
+								{allMallsData &&
+									allMallsData.map((option) => (
+										<Option key={option.ID} value={option.ID}>
+											{option.MALL_NAMES}
+										</Option>
+									))}
+							</Select>
+						</Form.Item>
+					)}
+					{type === 'Addnew' && (
 						<Form.Item
-							label="Highlight Message"
-							name="highlight"
-							rules={[ { required: true, message: 'Please enter highlight message' } ]}
+							label="Shop"
+							name="shopId"
+							rules={[ { required: true, message: 'Please select the shop' } ]}
 						>
-							<TextArea rows={4} placeholder="Enter Message" />
+							<Select
+								showSearch
+								placeholder="Select a Shop"
+								optionFilterProp="children"
+								onChange={onChange2}
+								filterOption={(input, option) =>
+									option.children.toLowerCase().includes(input.toLowerCase())}
+							>
+								{shopsData &&
+									shopsData.map((option) => (
+										<Option key={option.ID} value={option.ID}>
+											{option.SHOP_NAME}
+										</Option>
+									))}
+							</Select>
 						</Form.Item>
-						<Form.Item className="highlightbtns">
-							<Space>
-								<Button type="secondary" onClick={closeModal}>
-									Cancel
-								</Button>
-								<Button type="primary" htmlType="submit">
-									Save
-								</Button>
-							</Space>
-						</Form.Item>
-					</Form>
-				</Space>
-			</Modal>
+					)}
+					<Form.Item
+						label="Highlight Message"
+						name="highlight"
+						rules={[ { required: true, message: 'Please enter highlight message' } ]}
+					>
+						<TextArea rows={4} placeholder="Enter Message" />
+					</Form.Item>
+					<Form.Item className="highlightbtns">
+						<Space>
+							<Button type="secondary" onClick={closeModal}>
+								Cancel
+							</Button>
+							<Button type="primary" htmlType="submit">
+								Save
+							</Button>
+						</Space>
+					</Form.Item>
+				</Form>
+			</Space>
+		</Modal>
 	);
 };
 
