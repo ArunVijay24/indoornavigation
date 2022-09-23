@@ -15,16 +15,22 @@
 .cardgroup {
 	display: flex;
 	flex-wrap: wrap;
-	/* align-content: center; */
+
 	justify-content: space-between;
 }
 .mall {
-	background: #1890ff;
+	background: #001529;
 	width: -webkit-fill-available;
 	display: flex;
 	justify-content: space-around;
-	align-items: baseline;
+	align-items: center;
 }
 h1.hlheader {
 	color: white;
+}
+
+form.ant-form.ant-form-horizontal.fmwform {
+	.ant-form-item-label > label {
+		color: white;
+	}
 }
