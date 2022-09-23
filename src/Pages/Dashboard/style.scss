@@ -1,0 +1,20 @@
+.highlightcard {
+	margin: 1em;
+	padding: 0;
+	font-size: 10px;
+	text-align: center;
+	display: block;
+	background-color: #ddaa77;
+	border-radius: 3px;
+	cursor: pointer;
+	box-shadow: 2px 2px 2px #1890ff;
+}
+.highlightcard:hover {
+	transform: scale(1.05);
+}
+.cardgroup {
+	display: flex;
+	flex-wrap: wrap;
+	/* align-content: center; */
+	justify-content: flex-start;
+}

@@ -6,6 +6,8 @@ import { Card, Select, Space } from 'antd';
 import Axios from 'axios';
 // import _isEmpty from 'lodash/isEmpty';
 import moment from 'moment/moment';
+
+import './style.scss';
 const { Option } = Select;
 
 const Dashboard = () => {
@@ -107,13 +109,15 @@ const Dashboard = () => {
 				</Space>
 			</div>
 			<div className="site-layout-content" />
-			<Space>
+			<div className="cardgroup">
 				{validHighlights.map((mall) => (
-					<Card key={mall.ID} extra={<a href="#">More</a>} style={{ width: 300, height: 200 }}>
-						<h3>{mall.HIGHLIGHTS}</h3>
-					</Card>
+					<div className="highlightcard">
+						<Card key={mall.ID} extra={<a href="#">More</a>} style={{ width: 300, height: 200 }}>
+							<h3>{mall.HIGHLIGHTS}</h3>
+						</Card>
+					</div>
 				))}
-			</Space>
+			</div>
 		</div>
 	);
 };
