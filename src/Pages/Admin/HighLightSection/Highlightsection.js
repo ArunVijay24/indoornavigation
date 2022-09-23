@@ -7,10 +7,11 @@ import HighlightTable from './HighlightTable';
 import MallModal from './MallModal';
 
 //Styles
-import './style.css';
+import './style.scss';
 
 //Redux
-import { getAllMallsData } from '../../../Services/AdminHighlight/action';
+import { getAllMallsData } from '../../../Services/AllMallsData/action';
+import { getShopId } from '../../../Services/HighlightByShopId/action';
 import API_CALL from '../../../Services';
 
 //Others
@@ -21,10 +22,10 @@ import _isEmpty from 'lodash/isEmpty';
 const { Option } = Select;
 
 const Highlightsection = () => {
-	const [ addModal, setAddModal ] = useState(false),
-		[ addMallModal, setAddMallModal ] = useState(false),
-		[ mallData, setMallData ] = useState([]),
-		[ malls, setMalls ] = useState([
+	const [addModal, setAddModal] = useState(false),
+		[addMallModal, setAddMallModal] = useState(false),
+		[mallData, setMallData] = useState([]),
+		[malls, setMalls] = useState([
 			{
 				ID: 1,
 				MALL_NAMES: 'Phoenix-Mall'
@@ -42,28 +43,21 @@ const Highlightsection = () => {
 				MALL_NAMES: 'EA-Mall'
 			}
 		]),
-		[ selectedMallId, setSelectedMallId ] = useState(),
-		[ selectedShopId, setSelectedShopId ] = useState(),
-		[ shopsData, setShopsData ] = useState([]);
+		[selectedMallId, setSelectedMallId] = useState(),
+		[selectedShopId, setSelectedShopId] = useState();
 
 	const dispatch = useDispatch();
 
-	const { allMallsData } = useSelector(({ highlightReducer }) => {
+	const { allMallsData, shopDatas, highlightTableData } = useSelector(({ highlightReducer, shopReducer, mallDataReducer }) => {
 		return {
-			allMallsData: highlightReducer.response.allMallsData
+			allMallsData: mallDataReducer.response.allMallsData,
+			shopDatas: shopReducer.response.shopDatas,
+			highlightTableData: highlightReducer.response.highlightTableData
 		};
 	});
 
 	useEffect(() => {
-		API_CALL({
-			method: 'get',
-			url: `malls`,
-			callback: ({ data, status }) => {
-				if (status === 200) {
-					dispatch(getAllMallsData(data.data));
-				}
-			}
-		});
+		dispatch(getAllMallsData())
 	}, []);
 
 	const getbymallsurl = 'http://192.168.68.123:3000/FindMyWay/api/test/highlightsByMall';
@@ -80,25 +74,26 @@ const Highlightsection = () => {
 			.catch((error) => {
 				console.log('error: ', error);
 			});
-		Axios({
-			method: 'get',
-			url: url2 + `${value}`
-		})
-			.then(({ data, status }) => {
-				console.log('data: ', data, status);
-				setShopsData(data.data);
-			})
-			.catch((error) => {
-				console.log('error: ', error);
-			});
+		dispatch(getShopId(value));
+		// Axios({
+		// 	method: 'get',
+		// 	url: url2 + `${value}`
+		// })
+		// 	.then(({ data, status }) => {
+		// 		console.log('data: ', data, status);
+		// 		setShopsData(data.data);
+		// 	})
+		// 	.catch((error) => {
+		// 		console.log('error: ', error);
+		// 	});
 	};
 
-	const url2 = 'http://192.168.68.123:3000/FindMyWay/api/test/shopById/';
+	//const url2 = 'http://192.168.68.123:3000/FindMyWay/api/test/shopById/';
 
 	const onChange2 = (value) => {
 		setSelectedShopId(value);
 	};
-	console.log('sv', selectedMallId, selectedShopId);
+	//console.log('sv', selectedMallId, selectedShopId);
 
 	const url3 = 'http://192.168.68.123:3000/FindMyWay/api/test/highlightById';
 	const makeAPICall = async (values) => {
@@ -152,8 +147,8 @@ const Highlightsection = () => {
 						onChange={onChange2}
 						filterOption={(input, option) => option.children.toLowerCase().includes(input.toLowerCase())}
 					>
-						{shopsData &&
-							shopsData.map((option) => (
+						{shopDatas &&
+							shopDatas.map((option) => (
 								<Option key={option.ID} value={option.ID}>
 									{option.SHOP_NAME}
 								</Option>

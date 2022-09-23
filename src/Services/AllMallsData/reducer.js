@@ -1,35 +1,34 @@
-import { GET_HIGHLIGHT_TABLE_DATA } from './action-types';
+import { GET_ALL_MALLS_DATA } from './action-types';
 
 let initialState = {
     requesting: false,
     response: {
-        highlightTableData: [],
+        allMallsData: []
     },
     statusCode: undefined
 }
 
-export const highlightReducer = (state = initialState, { type, payload }) => {
+export const mallDataReducer = (state = initialState, { type, payload }) => {
     switch (type) {
-        case GET_HIGHLIGHT_TABLE_DATA.REQ: 
+        case GET_ALL_MALLS_DATA.REQ:
             return {
                 ...state,
                 requesting: true,
                 statusCode: undefined
             }
-        case GET_HIGHLIGHT_TABLE_DATA.RES:
+        case GET_ALL_MALLS_DATA.RES:
             return {
                 ...state,
                 requesting: false,
                 response: {
                     ...state.response,
-                    highlightTableData: payload.data.data
+                    allMallsData: payload.data.data
                 },
                 statusCode: undefined
             }
-        case GET_HIGHLIGHT_TABLE_DATA.FAIL:
+        case GET_ALL_MALLS_DATA.FAIL:
             return {
                 ...state,
-                requesting: false,
                 statusCode: payload.status
             }
         default:

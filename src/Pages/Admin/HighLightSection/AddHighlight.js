@@ -1,15 +1,23 @@
-import { Button, Form, Input, Space, Modal, Select, DatePicker } from 'antd';
 import React, { useState, useEffect } from 'react';
-import moment from 'moment';
+import { useSelector, useDispatch } from 'react-redux';
 
-import Axios from 'axios';
-import { useSelector } from 'react-redux';
+//Redux
+import { getShopId } from '../../../Services/HighlightByShopId/action';
+import {  getHighlightTableData } from '../../../Services/AdminHighlight/action';
+import API_CALL from '../../../Services';
+
+//Others
+import { Button, Form, Input, Space, Modal, Select, DatePicker, notification } from 'antd';
+import moment from 'moment';
 import _isEmpty from 'lodash/isEmpty';
-const { TextArea } = Input;
-const { Option } = Select;
+
 
 const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
+
+	const { TextArea } = Input;
+	const { Option } = Select;
 	const { form } = Form.useForm();
+	const dispatch = useDispatch();
 
 	const layout = {
 		labelCol: {
@@ -38,54 +46,34 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 		};
 	});
 
-	const url = `http://192.168.68.123:3000/FindMyWay/api/test/${type === 'Addnew' ? 'add' : 'update'}-highlight`;
-	//const url2 = 'http://192.168.68.123:3000/FindMyWay/api/test/update-highlights';
-	const url2 = 'http://192.168.68.123:3000/FindMyWay/api/test/shopById/';
-
 	const onFinish = (values) => {
 		values['startDate'] = moment(values.startDate).format('YYYY-MM-DD');
 		values['endDate'] = moment(values.endDate).format('YYYY-MM-DD');
-		//console.log('valuessss', { ...values });
-
 		let payload = { ...values, Id: initialValues.Id };
-		makeAPICall(payload);
+		closeModal();
+		API_CALL({
+			method: 'post',
+			url: `${type === 'Addnew' ? 'add' : 'update'}-highlight`,
+			data: payload,
+			callback: ({ data, status }) => {
+				if (status === 200) {
+					notification.success({
+						message: data.data,
+						placement: 'top'
+					});
+					dispatch(getHighlightTableData())
+				}
+			}
+		})
 	};
 
-	const onFinishFailed = (errorInfo) => {
-		console.log('Failed:', errorInfo);
-	};
 	const onChange = (value) => {
 		setSelectedMallId(value);
-		Axios({
-			method: 'get',
-			url: url2 + `${value}`
-		})
-			.then(({ data, status }) => {
-				console.log('data: ', data, status);
-				setShopsData(data.data);
-			})
-			.catch((error) => {
-				console.log('error: ', error);
-			});
+		dispatch(getShopId(value));
 	};
 
 	const onChange2 = (value) => {
 		setSelectedShopId(value);
-	};
-
-	const makeAPICall = async (values) => {
-		await Axios({
-			method: 'post',
-			url: url,
-			data: values
-		})
-			.then(({ data, status }) => {
-				console.log('data: ', data, status);
-				closeModal();
-			})
-			.catch((error) => {
-				console.log('error: ', error);
-			});
 	};
 
 	useEffect(
@@ -121,7 +109,6 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 					{...layout}
 					form={form}
 					onFinish={onFinish}
-					onFinishFailed={onFinishFailed}
 					autoComplete="off"
 					initialValues={initialValues}
 				>

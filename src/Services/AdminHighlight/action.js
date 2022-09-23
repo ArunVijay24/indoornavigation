@@ -8,10 +8,3 @@ export const getHighlightTableData = () => {
         type: GET_HIGHLIGHT_TABLE_DATA
     })
 }
-
-export const getAllMallsData = (payload) => {
-    return {
-        type: GET_HIGHLIGHT_TABLE_DATA.MALL_DATA,
-        payload
-  }
-}

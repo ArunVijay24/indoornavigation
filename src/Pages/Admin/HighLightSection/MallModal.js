@@ -1,32 +1,35 @@
-import { Button, Form, Input, Space, Modal } from 'antd';
 import React from 'react';
+import { useDispatch } from 'react-redux';
 
-import Axios from 'axios';
+//Redux
+import API_CALL from '../../../Services';
+import { getAllMallsData } from '../../../Services/AllMallsData/action';
+
+//Others
+import { Button, Form, Input, Space, Modal, notification } from 'antd';
 
 const MallModal = ({ openModal, closeModal }) => {
-	const url = 'http://192.168.68.123:3000/FindMyWay/api/test/addMall';
+	const dispatch = useDispatch();
+
+	let viviraMall = 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fchennai.mallsmarket.com%2Fmalls%2Fvivira-mall-omr-chennai&psig=AOvVaw1lfvpRV762UFvIOJLKUkBJ&ust=1664013027584000&source=images&cd=vfe&ved=0CAwQjRxqFwoTCIi4l97RqvoCFQAAAAAdAAAAABAQ';
 
 	const onFinish = (values) => {
-		makeAPICall(values);
-	};
-
-	const onFinishFailed = (errorInfo) => {
-		console.log('Failed:', errorInfo);
-	};
-
-	const makeAPICall = async (values) => {
-		Axios({
+		let payloadValue = { ...values, link: viviraMall }
+		closeModal();
+		API_CALL({
 			method: 'post',
-			url: url,
-			data: values
+			url: `addMall`,
+			data: payloadValue,
+			callback: ({ data, status }) => {
+				if (status === 200) {
+					notification.success({
+						message: data.data,
+						placement: 'top'
+					})
+					dispatch(getAllMallsData())
+				}
+			}
 		})
-			.then(({ data, status }) => {
-				console.log('data: ', data, status);
-				closeModal();
-			})
-			.catch((error) => {
-				console.log('error: ', error);
-			});
 	};
 
 	return (
@@ -41,7 +44,7 @@ const MallModal = ({ openModal, closeModal }) => {
 				maskClosable={false}
 			>
 				<Space>
-					<Form onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off">
+					<Form onFinish={onFinish} autoComplete="off">
 						<Form.Item
 							label="Mall Name"
 							name="mallName"
