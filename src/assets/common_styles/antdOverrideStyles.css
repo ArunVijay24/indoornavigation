@@ -64,3 +64,10 @@ aside.ant-layout-sider.ant-layout-sider-dark.ant-layout-sider-collapsed {
 	min-width: 172px !important;
 	width: 172px !important;
 }
+
+.ant-modal {
+	transform-origin: center !important;
+}
+.ant-modal-content {
+	border-top: 5px solid #2e4dd4;
+}

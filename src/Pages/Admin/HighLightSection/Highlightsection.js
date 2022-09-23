@@ -6,6 +6,9 @@ import HighLightModal from './AddHighlight';
 import HighlightTable from './HighlightTable';
 import MallModal from './MallModal';
 
+//Styles
+import './style.css';
+
 //Redux
 import { getAllMallsData } from '../../../Services/AdminHighlight/action';
 import API_CALL from '../../../Services';
@@ -127,7 +130,7 @@ const Highlightsection = () => {
 		<div className="content">
 			<div className="site-layout-content">
 				<h1 className="text-center">Welcome to Highlight</h1>
-				<Space>
+				<Space className="action-container">
 					<Button onClick={() => setAddModal(true)}>Add Highlights</Button>
 					<Button onClick={() => setAddMallModal(true)}>Add New Mall</Button>
 					<Select
@@ -144,7 +147,6 @@ const Highlightsection = () => {
 							))}
 					</Select>
 					<Select
-						showSearch
 						placeholder="Select a Shop"
 						optionFilterProp="children"
 						onChange={onChange2}

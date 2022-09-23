@@ -30,7 +30,6 @@ const MallModal = ({ openModal, closeModal }) => {
 	};
 
 	return (
-		<React.Fragment>
 			<Modal
 				title={'Add New Mall'}
 				centered
@@ -63,7 +62,6 @@ const MallModal = ({ openModal, closeModal }) => {
 					</Form>
 				</Space>
 			</Modal>
-		</React.Fragment>
 	);
 };
 

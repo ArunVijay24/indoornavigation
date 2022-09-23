@@ -64,7 +64,7 @@ const HighlightTable = () => {
 			key: 'actions',
 			render: (_, record) => { 
 				return ( <Button
-					className="px-4 edit"
+					type='primary'
 					onClick={() => {
 						setModalData(record);
 				        setUpdateModal(true)
@@ -84,7 +84,7 @@ const HighlightTable = () => {
 				closeModal={() => setUpdateModal(false)}
 				initValue={modalData}
 				/>
-		    <Table dataSource={dataSource} columns={columns} className="highlight" rowKey="Id" />
+		    <Table dataSource={highlightTableData} columns={columns} className="highlight" rowKey="Id" />
 	    </Fragment>
 };
 
