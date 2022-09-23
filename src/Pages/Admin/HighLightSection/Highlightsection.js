@@ -11,20 +11,19 @@ import './style.scss';
 
 //Redux
 import { getAllMallsData } from '../../../Services/AllMallsData/action';
-import { getShopId } from '../../../Services/HighlightByShopId/action';
+import { clearShopData, getShopId } from '../../../Services/HighlightByShopId/action';
+import { getByMallData } from '../../../Services/HighlightsByMall/action';
 import API_CALL from '../../../Services';
 
 //Others
 import { Button, Select, Space } from 'antd';
-import Axios from 'axios';
 import _isEmpty from 'lodash/isEmpty';
 
-const { Option } = Select;
-
 const Highlightsection = () => {
+	const { Option } = Select;
 	const [addModal, setAddModal] = useState(false),
 		[addMallModal, setAddMallModal] = useState(false),
-		[mallData, setMallData] = useState([]),
+		//[mallData, setMallData] = useState([]),
 		[malls, setMalls] = useState([
 			{
 				ID: 1,
@@ -45,14 +44,15 @@ const Highlightsection = () => {
 		]),
 		[selectedMallId, setSelectedMallId] = useState(),
 		[selectedShopId, setSelectedShopId] = useState();
+	const [shopDataSource, setShopDataSource] = useState([]);
+
 
 	const dispatch = useDispatch();
 
-	const { allMallsData, shopDatas, highlightTableData } = useSelector(({ highlightReducer, shopReducer, mallDataReducer }) => {
+	const { allMallsData, shopDatas } = useSelector(({ shopReducer, mallDataReducer }) => {
 		return {
 			allMallsData: mallDataReducer.response.allMallsData,
 			shopDatas: shopReducer.response.shopDatas,
-			highlightTableData: highlightReducer.response.highlightTableData
 		};
 	});
 
@@ -60,55 +60,22 @@ const Highlightsection = () => {
 		dispatch(getAllMallsData())
 	}, []);
 
-	const getbymallsurl = 'http://192.168.68.123:3000/FindMyWay/api/test/highlightsByMall';
+	useEffect(() => {
+		return () => {
+			dispatch(clearShopData())
+		}
+	},[])
+
 	const onChange = (value) => {
 		setSelectedMallId(value);
-		Axios({
-			method: 'get',
-			url: getbymallsurl,
-			params: { id: value }
-		})
-			.then(({ data, status }) => {
-				setMallData(data.data);
-			})
-			.catch((error) => {
-				console.log('error: ', error);
-			});
+		dispatch(getByMallData(value));
 		dispatch(getShopId(value));
-		// Axios({
-		// 	method: 'get',
-		// 	url: url2 + `${value}`
-		// })
-		// 	.then(({ data, status }) => {
-		// 		console.log('data: ', data, status);
-		// 		setShopsData(data.data);
-		// 	})
-		// 	.catch((error) => {
-		// 		console.log('error: ', error);
-		// 	});
 	};
-
-	//const url2 = 'http://192.168.68.123:3000/FindMyWay/api/test/shopById/';
 
 	const onChange2 = (value) => {
 		setSelectedShopId(value);
 	};
-	//console.log('sv', selectedMallId, selectedShopId);
-
-	const url3 = 'http://192.168.68.123:3000/FindMyWay/api/test/highlightById';
-	const makeAPICall = async (values) => {
-		await Axios({
-			method: 'post',
-			url: url3,
-			data: values
-		})
-			.then(({ data, status }) => {
-				console.log('data3: ', data, status);
-			})
-			.catch((error) => {
-				console.log('error: ', error);
-			});
-	};
+	
 	useEffect(
 		() => {
 			if (selectedMallId && selectedShopId) {
@@ -116,7 +83,16 @@ const Highlightsection = () => {
 					mallId: selectedMallId,
 					shopId: selectedShopId
 				};
-				makeAPICall(payload);
+				API_CALL({
+					method: 'post',
+					url: `highlightById`,
+					data: payload,
+					callback: ({ data, status }) => {
+						if (status === 200) {
+							setShopDataSource(data.data)
+						}
+					}
+				})
 			}
 		},
 		[ selectedMallId, selectedShopId ]
@@ -129,6 +105,8 @@ const Highlightsection = () => {
 					<Button onClick={() => setAddModal(true)}>Add Highlights</Button>
 					<Button onClick={() => setAddMallModal(true)}>Add New Mall</Button>
 					<Select
+						allowClear
+						style={{ width: 140}}
 						placeholder="Select a Mall"
 						optionFilterProp="children"
 						onChange={onChange}
@@ -142,6 +120,8 @@ const Highlightsection = () => {
 							))}
 					</Select>
 					<Select
+						allowClear
+						style={{width: 140}}
 						placeholder="Select a Shop"
 						optionFilterProp="children"
 						onChange={onChange2}
@@ -155,7 +135,7 @@ const Highlightsection = () => {
 							))}
 					</Select>
 				</Space>
-				<HighlightTable />
+				<HighlightTable shopDataSource={shopDataSource} />
 				<HighLightModal type="Addnew" openModal={addModal} closeModal={() => setAddModal(false)} />
 				<MallModal openModal={addMallModal} closeModal={() => setAddMallModal(false)} />
 			</div>

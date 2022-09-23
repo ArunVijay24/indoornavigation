@@ -31,6 +31,14 @@ export const shopReducer = (state = initialState, { type, payload }) => {
 				...state,
 				statusCode: payload.status
 			}
+		case HIGHLIGHTBYSHOPID.CLEAR_SHOP_DATA:
+			return {
+				...state,
+				response: {
+					...state.response,
+					shopDatas: []
+				}
+			}
 		default:
 			return state;
 	}

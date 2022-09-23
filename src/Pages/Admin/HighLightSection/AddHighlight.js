@@ -28,23 +28,23 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 		}
 	};
 
-	const [ initialValues, setInitialValues ] = useState({
-			mallId: '',
-			shopId: '',
-			Id: '',
-			startDate: '',
-			endDate: '',
-			highlight: ''
-		}),
-		[ selectedMallId, setSelectedMallId ] = useState(),
-		[ selectedShopId, setSelectedShopId ] = useState(),
-		[ sd, setSd ] = useState(),
-		[ ed, setEd ] = useState(),
-		[ shopsData, setShopsData ] = useState([]);
+	const [initialValues, setInitialValues] = useState({
+		mallId: '',
+		shopId: '',
+		Id: '',
+		startDate: '',
+		endDate: '',
+		highlight: ''
+	}),
+		[selectedMallId, setSelectedMallId] = useState(),
+		[selectedShopId, setSelectedShopId] = useState(),
+		[sd, setSd] = useState(),
+		[ed, setEd] = useState();
 
-	const { allMallsData } = useSelector(({ highlightReducer }) => {
+	const { allMallsData, shopDatas } = useSelector(({ mallDataReducer, shopReducer }) => {
 		return {
-			allMallsData: highlightReducer.response.allMallsData
+			allMallsData: mallDataReducer.response.allMallsData,
+			shopDatas: shopReducer.response.shopDatas,
 		};
 	});
 
@@ -161,7 +161,6 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 							rules={[ { required: true, message: 'Please select the mall' } ]}
 						>
 							<Select
-								showSearch
 								placeholder="Select a Mall"
 								optionFilterProp="children"
 								onChange={onChange}
@@ -184,15 +183,14 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 							rules={[ { required: true, message: 'Please select the shop' } ]}
 						>
 							<Select
-								showSearch
 								placeholder="Select a Shop"
 								optionFilterProp="children"
 								onChange={onChange2}
 								filterOption={(input, option) =>
 									option.children.toLowerCase().includes(input.toLowerCase())}
 							>
-								{shopsData &&
-									shopsData.map((option) => (
+								{shopDatas &&
+									shopDatas.map((option) => (
 										<Option key={option.ID} value={option.ID}>
 											{option.SHOP_NAME}
 										</Option>

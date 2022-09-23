@@ -22,7 +22,6 @@ const Layoutsider = (props) => {
 					})}
 				</Header>
 				<Select
-					showSearch
 					placeholder="Select a Role"
 					optionFilterProp="children"
 					onChange={onChange}

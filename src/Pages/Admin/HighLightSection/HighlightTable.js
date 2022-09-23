@@ -11,17 +11,22 @@ import { getHighlightTableData } from '../../../Services/AdminHighlight/action';
 //Others
 import { Button, Table } from 'antd';
 
-const HighlightTable = () => {
+const HighlightTable = ({shopDataSource}) => {
 	const [updateModal, setUpdateModal] = useState(false);
 	const [modalData, setModalData] = useState({})
 	const dispatch = useDispatch();
 
-	const { highlightTableData, tableDataLoader } = useSelector(({ highlightReducer }) => {
+	const { highlightTableData, tableDataLoader, mallDataSource } = useSelector(({ highlightReducer, highlightMallDataReducer }) => {
 		return {
 			highlightTableData: highlightReducer.response.highlightTableData,
-			tableDataLoader: highlightReducer.requesting
+			tableDataLoader: highlightReducer.requesting,
+			mallDataSource: highlightMallDataReducer.response.mallData
 		}
-	})
+	});
+
+	console.log('highlightTableData', highlightTableData);
+	console.log('mallDataSource', mallDataSource);
+	console.log('shopDataSource', shopDataSource);
 
 	const dataSource = [
 		{
