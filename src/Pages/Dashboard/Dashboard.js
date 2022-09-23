@@ -10,7 +10,7 @@ import moment from 'moment/moment';
 import './style.scss';
 const { Option } = Select;
 
-const Dashboard = () => {
+const Dashboard = ({ mallImg }) => {
 	const [ malls, setMalls ] = useState([
 			{
 				ID: 1,
@@ -47,11 +47,13 @@ const Dashboard = () => {
 				console.log('error: ', error);
 			});
 	}, []);
-
+	mallImg(image);
 	const getbymallsurl = 'http://192.168.68.123:3000/FindMyWay/api/test/highlightsByMall';
 	const onChange = (value) => {
 		let img = malls.filter((mall) => mall.ID === value);
+		// mallImg(img[0].LINKS);
 		setImage(img[0].LINKS);
+
 		setMallName(img[0].MALL_NAMES);
 		Axios({
 			method: 'get',

@@ -22,10 +22,9 @@ const FindMyWay = () => {
 	const options = [ 'KFC', 'Puma', 'Bata' ];
 	return (
 		<div className="content">
-			<div className="site-layout-content">
-				<h1>Welcome to FindMyWay</h1>
-			</div>
-			<Space>
+			<div className="mall">
+				<h1 className="hlheader">Welcome to FindMyWay</h1>
+
 				<Form
 					initialValues={{
 						remember: true
@@ -33,6 +32,7 @@ const FindMyWay = () => {
 					onFinish={onFinish}
 					onFinishFailed={onFinishFailed}
 					autoComplete="off"
+					className="fmwform"
 				>
 					<Form.Item
 						label="Starting Place"
@@ -74,7 +74,8 @@ const FindMyWay = () => {
 						</Button>
 					</Form.Item>
 				</Form>
-			</Space>
+			</div>
+			<div className="site-layout-content" />
 		</div>
 	);
 };
