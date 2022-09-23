@@ -7,7 +7,7 @@ import { Layout } from 'antd';
 //styles
 import 'antd/dist/antd.min.css';
 import './index.css';
-import './assets/common_styles/antdOverrideStyles.css';
+import './assets/common_styles/antdOverrideStyles.scss';
 import './styles.css';
 
 //pages

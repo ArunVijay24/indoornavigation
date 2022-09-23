@@ -78,6 +78,7 @@ const Dashboard = () => {
 	return (
 		<div className="content">
 			<div className="mall">
+				<h1 className="hlheader">{`Welcome to ${mallName ? mallName : 'Dashboard'} `}</h1>
 				<Select
 					showSearch
 					placeholder="Select a Mall"
@@ -91,6 +92,7 @@ const Dashboard = () => {
 						</Option>
 					))}
 				</Select>
+
 				<Media className="text-center">
 					<img
 						src={image}
@@ -104,9 +106,6 @@ const Dashboard = () => {
 						className="shadow  p-3"
 					/>
 				</Media>
-				<Space>
-					<h1>{`Welcome to ${mallName ? mallName : 'Dashboard'} `}</h1>
-				</Space>
 			</div>
 			<div className="site-layout-content" />
 			<div className="cardgroup">

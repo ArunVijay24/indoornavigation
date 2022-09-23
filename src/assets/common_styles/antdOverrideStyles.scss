@@ -71,3 +71,8 @@ aside.ant-layout-sider.ant-layout-sider-dark.ant-layout-sider-collapsed {
 .ant-modal-content {
 	border-top: 5px solid #2e4dd4;
 }
+.ant-layout.ant-layout-has-sider > .ant-layout,
+.ant-layout.ant-layout-has-sider > .ant-layout-content {
+	width: 0;
+	overflow: auto;
+}

@@ -16,5 +16,12 @@
 	display: flex;
 	flex-wrap: wrap;
 	/* align-content: center; */
-	justify-content: flex-start;
+	justify-content: space-between;
+}
+.mall {
+	background: #1890ff;
+	width: -webkit-fill-available;
+	display: flex;
+	justify-content: space-around;
+	align-items: baseline;
 }
