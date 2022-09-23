@@ -21,7 +21,7 @@ const { Content } = Layout;
 const App = () => {
 	const [ role, setRole ] = useState(''),
 		[ bgImage, setBgImage ] = useState('');
-	console.log('BG', bgImage);
+
 	const items = [
 		{
 			key: '1',
@@ -44,21 +44,12 @@ const App = () => {
 			onClick: () => navigate('/highlightsection')
 		}
 	];
-	console.log('role', role);
+
 	const navigate = useNavigate();
 	return role === 'admin' ? (
 		<Layout className="layout">
 			<Layoutsider items={items2} roleChange={(val) => setRole(val)} />
-			<Layout
-				className="site-layout"
-				style={{
-					backgroundImage: `url(${bgImage})`,
-					backgroundSize: 'cover',
-					backgroundRepeat: 'no-repeat',
-					backgroundPosition: 'center',
-					height: '500px'
-				}}
-			>
+			<Layout className="site-layout contentimg">
 				<Content className="">
 					<Routes>
 						<Route path="/highlightsection" element={<Highlight />} />
@@ -69,7 +60,15 @@ const App = () => {
 	) : (
 		<Layout className="layout">
 			<Layoutsider items={items} roleChange={(val) => setRole(val)} />
-			<Layout className="site-layout contentimg">
+			<Layout
+				className="site-layout "
+				style={{
+					backgroundImage: `url(${bgImage})`,
+					backgroundSize: 'cover',
+					backgroundRepeat: 'no-repeat',
+					backgroundPosition: 'center'
+				}}
+			>
 				<Content className="">
 					<Routes>
 						<Route path="/dashboard" element={<Dashboard mallImg={(img) => setBgImage(img)} />} />
