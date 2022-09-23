@@ -38,6 +38,8 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 		}),
 		[ selectedMallId, setSelectedMallId ] = useState(),
 		[ selectedShopId, setSelectedShopId ] = useState(),
+		[ sd, setSd ] = useState(),
+		[ ed, setEd ] = useState(),
 		[ shopsData, setShopsData ] = useState([]);
 
 	const { allMallsData } = useSelector(({ highlightReducer }) => {
@@ -93,6 +95,12 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 		[ initValue, selectedMallId ]
 	);
 
+	const sdChange = (val) => {
+		setSd(val);
+	};
+	const edChange = (val) => {
+		setEd(val);
+	};
 	return (
 		<Modal
 			title={type === 'Addnew' ? 'New Highlight' : 'Edit Highlight'}
@@ -115,16 +123,36 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 					<Form.Item
 						label="Start Date"
 						name="startDate"
-						rules={[ { required: true, message: 'Please enter start date' } ]}
+						rules={[
+							{ required: true, message: 'Please enter start date' },
+							() => ({
+								validator(_, value) {
+									if (moment(value).isAfter(moment(ed))) {
+										return Promise.reject('start date must be less than end date');
+									}
+									return Promise.resolve();
+								}
+							})
+						]}
 					>
-						<DatePicker format="YYYY-MM-DD" allowClear={false} />
+						<DatePicker format="YYYY-MM-DD" allowClear={false} onChange={sdChange} />
 					</Form.Item>
 					<Form.Item
 						label="End Date"
 						name="endDate"
-						rules={[ { required: true, message: 'Please enter end date' } ]}
+						rules={[
+							{ required: true, message: 'Please enter end date' },
+							() => ({
+								validator(_, value) {
+									if (moment(value).isBefore(moment(sd))) {
+										return Promise.reject('end date must be greater start date');
+									}
+									return Promise.resolve();
+								}
+							})
+						]}
 					>
-						<DatePicker format="YYYY-MM-DD" allowClear={false} />
+						<DatePicker format="YYYY-MM-DD" allowClear={false} onChange={edChange} />
 					</Form.Item>
 					{type === 'Addnew' && (
 						<Form.Item

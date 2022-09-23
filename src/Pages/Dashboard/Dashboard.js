@@ -51,7 +51,7 @@ const Dashboard = ({ mallImg }) => {
 	const getbymallsurl = 'http://192.168.68.123:3000/FindMyWay/api/test/highlightsByMall';
 	const onChange = (value) => {
 		let img = malls.filter((mall) => mall.ID === value);
-		// mallImg(img[0].LINKS);
+
 		setImage(img[0].LINKS);
 
 		setMallName(img[0].MALL_NAMES);
@@ -75,8 +75,6 @@ const Dashboard = ({ mallImg }) => {
 			moment(data.END_DATE).isSame(moment())
 	);
 
-	console.log('valhigh', validHighlights);
-
 	return (
 		<div className="content">
 			<div className="mall">
@@ -99,8 +97,8 @@ const Dashboard = ({ mallImg }) => {
 					<img
 						src={image}
 						style={{
-							width: '100px',
-							height: '100px',
+							width: '50px',
+							height: '50px',
 							borderRadius: '50%',
 							border: `3px solid #f4f5fa`
 						}}
