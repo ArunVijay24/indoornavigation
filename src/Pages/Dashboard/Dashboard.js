@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import imageurl from '../../assets/images/Mall.jpg';
+import imageurl from '../../assets/images/Mall3.webp';
 
 import { Media } from 'reactstrap';
 import { Card, Select, Space } from 'antd';
