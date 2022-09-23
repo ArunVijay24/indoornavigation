@@ -4,14 +4,20 @@ import { Button, Form, Select, Space } from 'antd';
 
 const { Option } = Select;
 const FindMyWay = () => {
+	const [ from, setFrom ] = useState(''),
+		[ to, setTo ] = useState(''),
+		[ fromTo, setFromTo ] = useState({});
 	const onChange = (value) => {
-		console.log(`selected ${value}`);
+		setFrom(value);
+	};
+	const onChange2 = (value) => {
+		setTo(value);
 	};
 
 	const onSearch = (value) => {
 		console.log('search:', value);
 	};
-	const [ fromTo, setFromTo ] = useState({});
+
 	const onFinish = (values) => {
 		setFromTo(values);
 	};
@@ -37,7 +43,17 @@ const FindMyWay = () => {
 					<Form.Item
 						label="Starting Place"
 						name="startingplace"
-						rules={[ { required: true, message: 'Please enter starting place' } ]}
+						rules={[
+							{ required: true, message: 'Please enter starting place' },
+							() => ({
+								validator(_, value) {
+									if (value === to) {
+										return Promise.reject('From and To are same,Please enter different source');
+									}
+									return Promise.resolve();
+								}
+							})
+						]}
 					>
 						<Select
 							showSearch
@@ -54,13 +70,25 @@ const FindMyWay = () => {
 					<Form.Item
 						label="Ending Place"
 						name="endingplace"
-						rules={[ { required: true, message: 'Please enter ending place' } ]}
+						rules={[
+							{ required: true, message: 'Please enter ending place' },
+							() => ({
+								validator(_, value) {
+									if (value === from) {
+										return Promise.reject(
+											'From and To are same,Please enter different destination'
+										);
+									}
+									return Promise.resolve();
+								}
+							})
+						]}
 					>
 						<Select
 							showSearch
 							placeholder="Select a Destination"
 							optionFilterProp="children"
-							onChange={onChange}
+							onChange={onChange2}
 							onSearch={onSearch}
 							filterOption={(input, option) =>
 								option.children.toLowerCase().includes(input.toLowerCase())}
