@@ -86,12 +86,18 @@ const Header = () => {
 					{role === 'user' ? (
 						<Fragment>
 							<Col>
-								<NavLink activeclassname="active" to="/dashboard" defaultChecked>
+								<NavLink
+									className={({ isActive }) => (isActive ? 'active' : undefined)}
+									to="/dashboard"
+								>
 									Dashboard
 								</NavLink>
 							</Col>
 							<Col>
-								<NavLink activeclassname="active" to="/findMyWay">
+								<NavLink
+									className={({ isActive }) => (isActive ? 'active' : undefined)}
+									to="/findMyWay"
+								>
 									FindMyWay
 								</NavLink>
 							</Col>
@@ -119,12 +125,18 @@ const Header = () => {
 					) : (
 						<Fragment>
 							<Col>
-								<NavLink activeclassname="active" to="/highlightsection" defaultChecked>
+								<NavLink
+									className={({ isActive }) => (isActive ? 'active' : undefined)}
+									to="/highlightsection"
+								>
 									HighlightSection
 								</NavLink>
 							</Col>
 							<Col>
-								<NavLink activeclassname="active" to="/navigationentry">
+								<NavLink
+									className={({ isActive }) => (isActive ? 'active' : undefined)}
+									to="/navigationentry"
+								>
 									NagivationEntry
 								</NavLink>
 							</Col>

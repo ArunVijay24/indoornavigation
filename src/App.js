@@ -1,10 +1,10 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
 
 //Components
 import Dashboard from './Pages/User/Dashboard';
 import FindMyWay from './Pages/User/FindMyWay';
-import Admin from './Pages/Admin/HighlightSection';
+import Admin from './Pages/Admin/HighLightSection';
 import FindWayEntry from './Pages/Admin/FindWayEntry';
 import Header from './Components/Header';
 
@@ -30,6 +30,7 @@ const App = () => {
 					<Route path="/navigationentry" element={<FindWayEntry />} />
 					<Route path="/dashboard" element={<Dashboard />} />
 					<Route path="/findMyWay" element={<FindMyWay />} />
+					<Route path="/" element={<Navigate to="/dashboard" />} />
 				</Routes>
 			</Content>
 		</Layout>
