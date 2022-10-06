@@ -61,3 +61,9 @@ span.anticon.anticon-menu-fold.trigger {
 	width: 0;
 	overflow: auto;
 }
+@media screen and (max-width: 600px) {
+	.pathul .ant-space.ant-space-horizontal.ant-space-align-center {
+		/* display: flex !important; */
+		justify-content: center;
+	}
+}

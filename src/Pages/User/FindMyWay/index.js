@@ -10,6 +10,10 @@ import './style.scss';
 //Others
 import { Button, Form, Select, Space } from 'antd';
 import { ArrowLeftOutlined, ArrowRightOutlined, ArrowUpOutlined } from '@ant-design/icons';
+import Canvas from '../Canvas/Canvas';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft, faLeftLong, faRightLong, faUpLong } from '@fortawesome/free-solid-svg-icons';
 
 const FindMyWay = () => {
 	const [ from, setFrom ] = useState('');
@@ -103,7 +107,9 @@ const FindMyWay = () => {
 	};
 
 	const left = 'left',
+		adjacentLeft = 'adjacent left',
 		right = 'right',
+		adjacentRight = 'adjacent right',
 		straight = 'straight',
 		opposite = 'opposite';
 
@@ -111,22 +117,32 @@ const FindMyWay = () => {
 		(data) =>
 			data.toLocaleLowerCase().includes(left) ? (
 				<Space className="fmwmap">
-					<ArrowLeftOutlined />
+					<FontAwesomeIcon icon={faLeftLong} />
+					{data}
+				</Space>
+			) : data.toLocaleLowerCase().includes(adjacentLeft) ? (
+				<Space className="fmwmap">
+					<FontAwesomeIcon icon={faArrowLeft} />
+					{data}
+				</Space>
+			) : data.toLocaleLowerCase().includes(adjacentRight) ? (
+				<Space className="fmwmap">
+					<FontAwesomeIcon icon={faRightLong} />
 					{data}
 				</Space>
 			) : data.toLocaleLowerCase().includes(right) ? (
 				<Space className="fmwmap">
-					<ArrowRightOutlined />
+					<FontAwesomeIcon icon={faRightLong} />
 					{data}
 				</Space>
 			) : data.toLocaleLowerCase().includes(straight) ? (
 				<Space className="fmwmap">
-					<ArrowUpOutlined />
+					<FontAwesomeIcon icon={faUpLong} />
 					{data}
 				</Space>
 			) : data.toLocaleLowerCase().includes(opposite) ? (
 				<Space className="fmwmap">
-					<ArrowUpOutlined />
+					<FontAwesomeIcon icon={faUpLong} />
 					{data}
 				</Space>
 			) : (
@@ -229,6 +245,7 @@ const FindMyWay = () => {
 			<div className="site-layout-content pathulslc">
 				<ul className="pathul">{dir}</ul>
 			</div>
+			<Canvas>Your browser does not support the canvas element.</Canvas>
 		</div>
 	);
 };

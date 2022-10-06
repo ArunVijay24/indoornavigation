@@ -3,8 +3,8 @@ import axios from 'axios';
 ///https://findmyway-be-server.azurewebsites.net/FindMyWay/api/admin/add-highlight
 // const ROOT_URL = 'https://findmyway-be-server.azurewebsites.net/FindMyWay/api/admin/';
 // const ROOT_URL = 'https://192.168.68.187:3000/FindMyWay/api/admin/';
-const ROOT_URL = 'http://192.168.68.123:3000/FindMyWay/api/admin/';
-
+const ROOT_URL = 'http://192.168.0.205:3000/FindMyWay/api/admin/';
+// 192.168.0.214
 function API_CALL({ method, url, data, type, callback, file, onUploadProgress, params }) {
 	if (callback) {
 		axios({
