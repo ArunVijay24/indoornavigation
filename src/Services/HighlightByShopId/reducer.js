@@ -3,19 +3,19 @@ import { HIGHLIGHTBYSHOPID } from './action-types';
 const initialState = {
 	requesting: false,
 	response: {
-	    shopDatas: [],
+		shopDatas: []
 	},
 	statusCode: undefined
 };
 
 export const shopReducer = (state = initialState, { type, payload }) => {
-	switch (type) {	
+	switch (type) {
 		case HIGHLIGHTBYSHOPID.REQ:
 			return {
 				...state,
 				requesting: true,
 				statusCode: undefined
-			}
+			};
 		case HIGHLIGHTBYSHOPID.RES:
 			return {
 				...state,
@@ -25,12 +25,12 @@ export const shopReducer = (state = initialState, { type, payload }) => {
 					shopDatas: payload.data.data
 				},
 				statusCode: undefined
-			}
+			};
 		case HIGHLIGHTBYSHOPID.FAIL:
 			return {
 				...state,
 				statusCode: payload.status
-			}
+			};
 		case HIGHLIGHTBYSHOPID.CLEAR_SHOP_DATA:
 			return {
 				...state,
@@ -38,7 +38,7 @@ export const shopReducer = (state = initialState, { type, payload }) => {
 					...state.response,
 					shopDatas: []
 				}
-			}
+			};
 		default:
 			return state;
 	}

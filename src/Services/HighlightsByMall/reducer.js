@@ -31,6 +31,14 @@ export const highlightMallDataReducer = (state = initialState, { type, payload }
                 ...state,
                 statusCode: payload.status
             }
+        case HIGHLIGHTBYMALL.CLEAR_MALL_DATASOURCE:
+            return {
+                ...state,
+                response: {
+                    ...state.response,
+                    mallData: []
+                }
+            }
         default:
             return state;
     }

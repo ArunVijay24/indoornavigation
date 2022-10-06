@@ -9,3 +9,9 @@ export const getByMallData = (payload) => {
         type: HIGHLIGHTBYMALL
     })
 }
+
+export const clearMallDataSource = () => {
+    return {
+        type: HIGHLIGHTBYMALL.CLEAR_MALL_DATASOURCE
+    }
+}

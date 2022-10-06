@@ -1,6 +1,10 @@
-.action-container {
+.select-container {
+	display: flex;
+	justify-content: space-between;
 	margin-bottom: 10px;
-	.select-container {
-		width: 100%;
-	}
+}
+.action-container {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 10px;
 }

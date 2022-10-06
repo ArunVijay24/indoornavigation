@@ -1,81 +1,37 @@
-import React, { useState } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
-//antd
-import { UserOutlined, DoubleRightOutlined, UserAddOutlined } from '@ant-design/icons';
-import { Layout } from 'antd';
+import React from 'react';
+import { Route, Routes } from 'react-router-dom';
 
-//styles
+//Components
+import Dashboard from './Pages/User/Dashboard';
+import FindMyWay from './Pages/User/FindMyWay';
+import Admin from './Pages/Admin/HighlightSection';
+import FindWayEntry from './Pages/Admin/FindWayEntry';
+import Header from './Components/Header';
+
+//Styles
 import 'antd/dist/antd.min.css';
 import './index.css';
 import './assets/common_styles/antdOverrideStyles.scss';
-import './styles.css';
+import './styles.scss';
+import './assets/common_styles/appStyle.scss';
 
-//pages
-import Dashboard from './Pages/Dashboard/Dashboard';
-import FindMyWay from './Pages/FindMyWay/FindMyWay';
-import Highlight from './Pages/Admin/HighLightSection/Highlightsection';
-import Layoutsider from './Components/Layoutsider/Layoutsider';
-
-const { Content } = Layout;
+//Others
+import { Layout } from 'antd';
 
 const App = () => {
-	const [ role, setRole ] = useState(''),
-		[ bgImage, setBgImage ] = useState('');
+	const { Content } = Layout;
 
-	const items = [
-		{
-			key: '1',
-			icon: <UserOutlined />,
-			label: 'Dashboard',
-			onClick: () => navigate('/dashboard')
-		},
-		{
-			key: '2',
-			icon: <DoubleRightOutlined />,
-			label: 'FindMyWay',
-			onClick: () => navigate('/findmyway')
-		}
-	];
-	const items2 = [
-		{
-			key: '1',
-			icon: <UserAddOutlined />,
-			label: 'HighLightSection',
-			onClick: () => navigate('/highlightsection')
-		}
-	];
-
-	const navigate = useNavigate();
-	return role === 'admin' ? (
-		<Layout className="layout">
-			<Layoutsider items={items2} roleChange={(val) => setRole(val)} />
-			<Layout className="site-layout contentimg">
-				<Content className="">
-					<Routes>
-						<Route path="/highlightsection" element={<Highlight />} />
-					</Routes>
-				</Content>
-			</Layout>
-		</Layout>
-	) : (
-		<Layout className="layout">
-			<Layoutsider items={items} roleChange={(val) => setRole(val)} />
-			<Layout
-				className="site-layout "
-				style={{
-					backgroundImage: `url(${bgImage})`,
-					backgroundSize: 'cover',
-					backgroundRepeat: 'no-repeat',
-					backgroundPosition: 'center'
-				}}
-			>
-				<Content className="">
-					<Routes>
-						<Route path="/dashboard" element={<Dashboard mallImg={(img) => setBgImage(img)} />} />
-						<Route path="/findMyWay" element={<FindMyWay />} />
-					</Routes>
-				</Content>
-			</Layout>
+	return (
+		<Layout className="layout-container">
+			<Header />
+			<Content className="component-container">
+				<Routes>
+					<Route path="/highlightsection" element={<Admin />} />
+					<Route path="/navigationentry" element={<FindWayEntry />} />
+					<Route path="/dashboard" element={<Dashboard />} />
+					<Route path="/findMyWay" element={<FindMyWay />} />
+				</Routes>
+			</Content>
 		</Layout>
 	);
 };

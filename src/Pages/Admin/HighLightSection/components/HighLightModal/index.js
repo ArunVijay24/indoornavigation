@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
+//Components
+import API_CALL from '../../../../../Services';
+
 //Redux
-import { getShopId } from '../../../Services/HighlightByShopId/action';
-import {  getHighlightTableData } from '../../../Services/AdminHighlight/action';
-import API_CALL from '../../../Services';
+import { getShopId } from '../../../../../Services/HighlightByShopId/action';
+import { getHighlightTableData } from '../../../../../Services/AdminHighlight/action';
 
 //Others
 import { Button, Form, Input, Space, Modal, Select, DatePicker, notification } from 'antd';
 import moment from 'moment';
-import _isEmpty from 'lodash/isEmpty';
-
 
 const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
-
 	const { TextArea } = Input;
 	const { Option } = Select;
 	const { form } = Form.useForm();
+
 	const dispatch = useDispatch();
 
 	const layout = {
@@ -28,27 +28,28 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 		}
 	};
 
-	const [initialValues, setInitialValues] = useState({
+	const [ initialValues, setInitalValues ] = useState({
 		mallId: '',
 		shopId: '',
 		Id: '',
 		startDate: '',
 		endDate: '',
 		highlight: ''
-	}),
-		[selectedMallId, setSelectedMallId] = useState(),
-		[selectedShopId, setSelectedShopId] = useState(),
-		[sd, setSd] = useState(),
-		[ed, setEd] = useState();
+	});
+	const [ selectedMallId, setSelectedMallId ] = useState('');
+	const [ selectedShopId, setSelectedShopId ] = useState('');
+	const [ sd, setSd ] = useState('');
+	const [ ed, setEd ] = useState('');
 
 	const { allMallsData, shopDatas } = useSelector(({ mallDataReducer, shopReducer }) => {
 		return {
 			allMallsData: mallDataReducer.response.allMallsData,
-			shopDatas: shopReducer.response.shopDatas,
+			shopDatas: shopReducer.response.shopDatas
 		};
 	});
 
 	const onFinish = (values) => {
+		console.log('on finishhh');
 		values['startDate'] = moment(values.startDate).format('YYYY-MM-DD');
 		values['endDate'] = moment(values.endDate).format('YYYY-MM-DD');
 		let payload = { ...values, Id: initialValues.Id };
@@ -63,26 +64,25 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 						message: data.data,
 						placement: 'top'
 					});
-					dispatch(getHighlightTableData())
+					dispatch(getHighlightTableData());
 				}
 			}
-		})
+		});
 	};
 
 	const onChange = (value) => {
-		setSelectedMallId(value);
-		dispatch(getShopId(value));
-	};
-
-	const onChange2 = (value) => {
-		setSelectedShopId(value);
-	};
+			setSelectedMallId(value);
+			dispatch(getShopId(value));
+		},
+		onChange2 = (value) => {
+			setSelectedShopId(value);
+		};
 
 	useEffect(
 		() => {
 			if (initValue) {
 				const { Id, START_DATE, END_DATE, HIGHLIGHTS } = initValue;
-				setInitialValues({
+				setInitalValues({
 					mallId: selectedMallId,
 					shopId: selectedShopId,
 					Id: Id,
@@ -96,11 +96,12 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 	);
 
 	const sdChange = (val) => {
-		setSd(val);
-	};
-	const edChange = (val) => {
-		setEd(val);
-	};
+			setSd(val);
+		},
+		edChange = (val) => {
+			setEd(val);
+		};
+
 	return (
 		<Modal
 			title={type === 'Addnew' ? 'New Highlight' : 'Edit Highlight'}
@@ -113,13 +114,7 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 			maskClosable={false}
 		>
 			<Space>
-				<Form
-					{...layout}
-					form={form}
-					onFinish={onFinish}
-					autoComplete="off"
-					initialValues={initialValues}
-				>
+				<Form {...layout} form={form} onFinish={onFinish} autoComplete="off" initialValues={initialValues}>
 					<Form.Item
 						label="Start Date"
 						name="startDate"
@@ -128,7 +123,7 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 							() => ({
 								validator(_, value) {
 									if (moment(value).isAfter(moment(ed))) {
-										return Promise.reject('start date must be less than end date');
+										return Promise.reject('Start date must be less than end date');
 									}
 									return Promise.resolve();
 								}
@@ -145,7 +140,7 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 							() => ({
 								validator(_, value) {
 									if (moment(value).isBefore(moment(sd))) {
-										return Promise.reject('end date must be greater start date');
+										return Promise.reject('End date must be greater start date');
 									}
 									return Promise.resolve();
 								}
@@ -178,12 +173,12 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 					)}
 					{type === 'Addnew' && (
 						<Form.Item
-							label="Shop"
+							label="Product"
 							name="shopId"
 							rules={[ { required: true, message: 'Please select the shop' } ]}
 						>
 							<Select
-								placeholder="Select a Shop"
+								placeholder="Select a shop"
 								optionFilterProp="children"
 								onChange={onChange2}
 								filterOption={(input, option) =>
@@ -205,16 +200,15 @@ const HighLightModal = ({ type, openModal, closeModal, initValue }) => {
 					>
 						<TextArea rows={4} placeholder="Enter Message" />
 					</Form.Item>
-					<Form.Item className="highlightbtns">
-						<Space>
-							<Button type="secondary" onClick={closeModal}>
-								Cancel
-							</Button>
-							<Button type="primary" htmlType="submit">
-								Save
-							</Button>
-						</Space>
-					</Form.Item>
+
+					<Space>
+						<Button type="secondary" onClick={closeModal}>
+							Cancel
+						</Button>
+						<Button type="primary" htmlType="submit">
+							Save
+						</Button>
+					</Space>
 				</Form>
 			</Space>
 		</Modal>

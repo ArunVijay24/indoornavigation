@@ -1,0 +1,37 @@
+.header-container {
+	position: fixed;
+	color: #fff;
+	background: #001529;
+	opacity: 0.97;
+	width: 100%;
+	z-index: 9;
+	.ant-typography strong {
+		color: #fff;
+		font-size: 16px;
+	}
+	.welcome-row {
+		justify-content: space-between;
+	}
+	.second-row {
+		a,
+		a:hover {
+			font-weight: 600;
+			color: #fff;
+		}
+
+		a:active,
+		a.active {
+			padding-bottom: 26px;
+			border-bottom: 3px solid #ff7600;
+			font-weight: 600;
+		}
+		justify-content: space-between;
+		line-height: 30px;
+		.menu-item {
+			display: flex;
+		}
+		.select-mall {
+			float: right;
+		}
+	}
+}

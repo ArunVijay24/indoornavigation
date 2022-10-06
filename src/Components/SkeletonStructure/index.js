@@ -24,8 +24,11 @@ const SkeletonStructure = ({ type, noOfColumn, count, rows }) => {
 				key: '5'
 			}
 		];
+
 		let columns = Array(noOfColumn).fill({});
+
 		columns[0].title = <SkeletonWithTitle />;
+
 		return (
 			<Table
 				columns={columns.map((column) => {
@@ -44,7 +47,6 @@ const SkeletonStructure = ({ type, noOfColumn, count, rows }) => {
 	if (type === 'title') {
 		return <SkeletonWithTitle />;
 	}
-
 	if (type === 'table') {
 		return <SkeletonWithTable />;
 	}
@@ -52,7 +54,8 @@ const SkeletonStructure = ({ type, noOfColumn, count, rows }) => {
 	if (type === 'skeletonParagraph') {
 		return [ ...Array(count) ].map((item, index) => (
 			<Fragment>
-				<Skeleton active title={false} paragraph={{ rows: rows, width: '100%' }} key={index} /> <br />
+				<Skeleton active title={false} paragraph={{ rows: rows, width: '100%' }} key={index} />
+				<br />
 			</Fragment>
 		));
 	}

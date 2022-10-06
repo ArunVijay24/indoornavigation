@@ -11,11 +11,6 @@ span.anticon.anticon-menu-fold.trigger {
 .ant-layout-header {
 	padding: 0 14px !important;
 }
-.content {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
 
 #components-layout-demo-custom-trigger .trigger {
 	padding: 0 24px;
@@ -34,10 +29,7 @@ span.anticon.anticon-menu-fold.trigger {
 .footer {
 	text-align: center;
 }
-.ant-table-wrapper.highlight {
-	margin: 10px auto;
-	width: 68vw;
-}
+
 .ant-table-thead > tr > th {
 	color: rgb(15 30 141 / 85%);
 	background: #72ebdb;
@@ -56,13 +48,6 @@ span.anticon.anticon-menu-fold.trigger {
 
 .ant-picker {
 	width: 100%;
-}
-.ant-form-item {
-	text-align: center;
-}
-aside.ant-layout-sider.ant-layout-sider-dark.ant-layout-sider-collapsed {
-	min-width: 172px !important;
-	width: 172px !important;
 }
 
 .ant-modal {
