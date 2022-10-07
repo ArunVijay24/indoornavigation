@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 
 const Canvas = (props) => {
 	const canvasRef = useRef(null);
-
+	console.log('path', props.path);
 	const draw = (ctx, frameCount) => {
 		ctx.moveTo(50, 50);
 		ctx.lineTo(100, 100);

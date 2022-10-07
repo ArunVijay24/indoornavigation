@@ -63,7 +63,7 @@ span.anticon.anticon-menu-fold.trigger {
 }
 @media screen and (max-width: 600px) {
 	.pathul .ant-space.ant-space-horizontal.ant-space-align-center {
-		/* display: flex !important; */
+		display: inline-flex !important;
 		justify-content: center;
 	}
 }

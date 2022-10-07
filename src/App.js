@@ -4,7 +4,7 @@ import { Route, Routes, Navigate } from 'react-router-dom';
 //Components
 import Dashboard from './Pages/User/Dashboard';
 import FindMyWay from './Pages/User/FindMyWay';
-import Admin from './Pages/Admin/HighLightSection';
+import Admin from './Pages/Admin/HighlightSection';
 import FindWayEntry from './Pages/Admin/FindWayEntry';
 import Header from './Components/Header';
 

@@ -9,11 +9,18 @@ import './style.scss';
 
 //Others
 import { Button, Form, Select, Space } from 'antd';
-import { ArrowLeftOutlined, ArrowRightOutlined, ArrowUpOutlined } from '@ant-design/icons';
+
 import Canvas from '../Canvas/Canvas';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft, faLeftLong, faRightLong, faUpLong } from '@fortawesome/free-solid-svg-icons';
+import {
+	faArrowLeft,
+	faCircleLeft,
+	faLeftLong,
+	faRightLong,
+	faSquareUpRight,
+	faUpLong
+} from '@fortawesome/free-solid-svg-icons';
 
 const FindMyWay = () => {
 	const [ from, setFrom ] = useState('');
@@ -115,19 +122,19 @@ const FindMyWay = () => {
 
 	const dir = path.map(
 		(data) =>
-			data.toLocaleLowerCase().includes(left) ? (
+			data.toLocaleLowerCase().includes(adjacentLeft) ? (
+				<Space className="fmwmap">
+					<FontAwesomeIcon icon={faCircleLeft} />
+					{data}
+				</Space>
+			) : data.toLocaleLowerCase().includes(left) ? (
 				<Space className="fmwmap">
 					<FontAwesomeIcon icon={faLeftLong} />
 					{data}
 				</Space>
-			) : data.toLocaleLowerCase().includes(adjacentLeft) ? (
-				<Space className="fmwmap">
-					<FontAwesomeIcon icon={faArrowLeft} />
-					{data}
-				</Space>
 			) : data.toLocaleLowerCase().includes(adjacentRight) ? (
 				<Space className="fmwmap">
-					<FontAwesomeIcon icon={faRightLong} />
+					<FontAwesomeIcon icon={faSquareUpRight} />
 					{data}
 				</Space>
 			) : data.toLocaleLowerCase().includes(right) ? (
@@ -245,7 +252,7 @@ const FindMyWay = () => {
 			<div className="site-layout-content pathulslc">
 				<ul className="pathul">{dir}</ul>
 			</div>
-			<Canvas>Your browser does not support the canvas element.</Canvas>
+			<Canvas path={path}>Your browser does not support the canvas element.</Canvas>
 		</div>
 	);
 };
